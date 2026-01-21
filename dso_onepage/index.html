@@ -118,10 +118,16 @@
                     href="#contact">Contact</a>
             </nav>
             <div class="flex items-center gap-4">
-                <button
-                    class="hidden sm:flex min-w-[140px] cursor-pointer items-center justify-center border border-primary/50 rounded-none h-10 px-4 bg-primary/10 text-white text-[9px] font-black uppercase tracking-[0.2em] glow-accent hover:bg-primary transition-all">
-                    Access Terminal
-                </button>
+                <button id="openTerminal"
+    class="hidden sm:flex min-w-[140px] cursor-pointer items-center justify-center
+           border border-primary/50 h-10 px-4 bg-primary/10 text-white
+           text-[9px] font-black uppercase tracking-[0.2em]
+           glow-accent hover:bg-primary transition-all">
+    Access Terminal
+</button>
+
+
+           
                 <label
                     class="xl:hidden cursor-pointer size-10 flex items-center justify-center border border-primary/30 text-accent-blue"
                     for="menu-toggle">
@@ -130,6 +136,49 @@
             </div>
         </div>
     </header>
+    <!-- Terminal Overlay -->
+<div id="terminalOverlay"
+     class="fixed inset-0 bg-black/80 backdrop-blur-md z-[999]
+            hidden flex items-center justify-center p-2 sm:p-4">
+
+    <!-- Terminal Window -->
+    <div class="w-full max-w-3xl h-[92svh] sm:h-[70svh]
+                bg-[#05070c] border border-primary/40
+                shadow-[0_0_40px_rgba(19,91,236,0.4)]
+                flex flex-col mx-auto my-auto">
+
+        <!-- Header -->
+        <div class="flex items-center justify-between px-4 py-2 border-b border-white/10">
+            <div class="flex items-center gap-2 text-accent-blue text-xs font-black uppercase tracking-widest">
+                <span class="material-symbols-outlined text-sm">terminal</span>
+                Neural Terminal
+            </div>
+            <button id="closeTerminal"
+                    class="text-slate-400 hover:text-red-500 text-lg">
+                ✕
+            </button>
+        </div>
+
+        <!-- Terminal Body -->
+        <div id="terminalBody"
+             class="flex-1 p-4 text-[13px] sm:text-sm
+                    font-mono text-green-400
+                    overflow-y-auto space-y-2">
+            <div>DSO Neural Agent v1.0</div>
+            <div>Type <span class="text-accent-blue">help</span> to begin.</div>
+        </div>
+
+        <!-- Input -->
+        <div class="border-t border-white/10 px-4 py-3 flex items-center gap-2">
+            <span class="text-accent-blue font-mono">$</span>
+            <input id="terminalInput" type="text"
+                   class="flex-1 bg-transparent outline-none
+                          text-green-400 font-mono text-sm"
+                   placeholder="Enter command..." />
+        </div>
+    </div>
+</div>
+
     <div class="fixed inset-y-0 right-0 w-64 bg-background-dark/95 backdrop-blur-2xl z-[60] border-l border-primary/20 transition-transform duration-300 transform translate-x-full xl:hidden"
         id="mobile-menu">
         <div class="p-6 flex flex-col h-full">
@@ -149,9 +198,14 @@
                     href="#contact" onclick="document.getElementById('menu-toggle').checked = false">Contact</a>
             </nav>
             <div class="mt-auto">
-                <button
-                    class="w-full border border-primary/50 py-4 text-[9px] font-black uppercase tracking-widest bg-primary/10">Access
-                    Terminal</button>
+               <button
+    id="openTerminal"
+    class="w-full border border-primary/50 py-4 text-[9px]
+           font-black uppercase tracking-widest
+           bg-primary/10 text-white">
+    Access Terminal
+</button>
+
             </div>
         </div>
     </div>
@@ -1391,6 +1445,133 @@
         });
     </script>
 
+<script>
+    const openBtn = document.getElementById("openTerminal");
+    const closeBtn = document.getElementById("closeTerminal");
+    const overlay = document.getElementById("terminalOverlay");
+    const input = document.getElementById("terminalInput");
+    const body = document.getElementById("terminalBody");
+    const menuToggle = document.getElementById("menu-toggle"); // mobile checkbox
+
+    /* ==========================
+       OPEN / CLOSE TERMINAL
+    ========================== */
+    function openTerminal() {
+        overlay.classList.remove("hidden");
+        overlay.classList.add("flex");
+        document.body.style.overflow = "hidden";
+
+        if (menuToggle) menuToggle.checked = false;
+        setTimeout(() => input.focus(), 150);
+    }
+
+    function closeTerminal() {
+        overlay.classList.add("hidden");
+        overlay.classList.remove("flex");
+        document.body.style.overflow = "";
+    }
+
+    openBtn?.addEventListener("click", openTerminal);
+    closeBtn?.addEventListener("click", closeTerminal);
+
+    document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape" && !overlay.classList.contains("hidden")) {
+            closeTerminal();
+        }
+    });
+
+    /* ==========================
+       TERMINAL INPUT HANDLER
+    ========================== */
+    input.addEventListener("keydown", async (e) => {
+        if (e.key === "Enter" && input.value.trim() !== "") {
+            const command = input.value.trim();
+            appendLine(`$ ${command}`, "text-green-400");
+            input.value = "";
+
+            const localReply = handleLocalCommand(command);
+
+            if (localReply !== null) {
+                if (localReply !== "") {
+                    setTimeout(() => {
+                        appendLine(localReply, "text-slate-300");
+                    }, 300);
+                }
+                return;
+            }
+
+            // AI response
+            appendLine("thinking...", "text-slate-500");
+
+            try {
+                const aiReply = await aiResponse(command);
+                removeLastLine(); // remove "thinking..."
+                appendLine(aiReply, "text-slate-300");
+            } catch (err) {
+                removeLastLine();
+                appendLine("AI service not reachable.", "text-red-400");
+            }
+        }
+    });
+
+    /* ==========================
+       LOCAL COMMANDS
+    ========================== */
+    function handleLocalCommand(cmd) {
+        cmd = cmd.toLowerCase();
+
+        if (cmd === "help")
+            return "Commands: help, services, projects, contact, about, clear";
+
+        if (cmd === "services")
+            return "Web • App • AI Agents • Shopify • WordPress • CRM • System Design";
+
+        if (cmd === "projects")
+            return "Visit the Deployments section to see live projects.";
+
+        if (cmd === "contact")
+            return "Email: desilentorder@gmail.com";
+
+        if (cmd === "about")
+            return "De Silent Order — Build in Silence.";
+
+        if (cmd === "clear") {
+            body.innerHTML = "";
+            return "";
+        }
+
+        return null; // not a local command → AI
+    }
+
+    /* ==========================
+       GEMINI AI CALL
+    ========================== */
+    async function aiResponse(prompt) {
+        const res = await fetch("http://192.168.1.5:5000/ask-gemini", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ prompt })
+        });
+
+        const data = await res.json();
+        return data.reply || "No response from AI.";
+    }
+
+    /* ==========================
+       UI HELPERS
+    ========================== */
+    function appendLine(text, className) {
+        const div = document.createElement("div");
+        div.className = className;
+        div.textContent = text;
+        body.appendChild(div);
+        body.scrollTop = body.scrollHeight;
+    }
+
+    function removeLastLine() {
+        if (body.lastChild) body.removeChild(body.lastChild);
+    }
+</script>
 
 </body>
 
