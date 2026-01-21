@@ -199,7 +199,7 @@
             </nav>
             <div class="mt-auto">
                <button
-    id="openTerminal"
+    id="openTerminalMobile"
     class="w-full border border-primary/50 py-4 text-[9px]
            font-black uppercase tracking-widest
            bg-primary/10 text-white">
@@ -1447,6 +1447,7 @@
 
 <script>
     const openBtn = document.getElementById("openTerminal");
+    const openBtnMobile = document.getElementById("openTerminalMobile");
     const closeBtn = document.getElementById("closeTerminal");
     const overlay = document.getElementById("terminalOverlay");
     const input = document.getElementById("terminalInput");
@@ -1472,6 +1473,7 @@
     }
 
     openBtn?.addEventListener("click", openTerminal);
+    openBtnMobile?.addEventListener("click", openTerminal);
     closeBtn?.addEventListener("click", closeTerminal);
 
     document.addEventListener("keydown", (e) => {
