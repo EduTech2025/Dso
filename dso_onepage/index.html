@@ -1127,7 +1127,7 @@
                 status: "Active",
                 title: "DD Associates",
                 desc: "A professional business website developed to highlight services, company values, and build trust through a structured and modern interface.",
-                link: "https://ddassociates.fwh.is/"
+                link: "https://ddassociate.in/"
             },
             {
                 image: "/assets/project/tekdat.png",
@@ -1549,7 +1549,8 @@
        GEMINI AI CALL
     ========================== */
     async function aiResponse(prompt) {
-        const res = await fetch("https://backend-coral-eight-82.vercel.app/ask-gemini", {
+        // const res = await fetch("https://backend-coral-eight-82.vercel.app/ask-gemini", {
+        const res = await fetch("http://192.168.1.5:5000/ask-gemini", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ prompt })
