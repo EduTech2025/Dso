@@ -23,7 +23,7 @@ CORS(
 # ==========================
 genai.configure(
     # api_key=os.getenv("GEMINI_API_KEY") or "YOUR_GEMINI_API_KEY"
-    api_key='AIzaSyD6H_lbpBcrktuWH2zra7r4ndlM-gX-6ck'
+    api_key='AIzaSyA8XwhKT29YF6HvM_NSvvf1VwpfcOJR63Y'
 )
 
 # ==========================
