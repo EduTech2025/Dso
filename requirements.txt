@@ -1,6 +1,0 @@
-flask==3.0.0
-flask-cors==4.0.0
-google-generativeai==0.4.1
-google-api-core==2.19.2
-protobuf==4.25.3
-requests==2.31.0

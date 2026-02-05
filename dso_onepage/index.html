@@ -1,1581 +1,693 @@
 <!DOCTYPE html>
-<html class="dark" lang="en">
+<html lang="en">
 
 <head>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
     <title>De Silent Order | Build in Silence</title>
-    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&amp;display=swap"
-        rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com"></script>
     <link
-        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Syne:wght@400;500;600;700;800&display=swap"
         rel="stylesheet" />
-    <script id="tailwind-config">
+    <link rel="stylesheet" href="main.css" />
+    <script>
         tailwind.config = {
-            darkMode: "class",
             theme: {
                 extend: {
-                    colors: {
-                        "primary": "#135bec",
-                        "background-light": "#f6f6f8",
-                        "background-dark": "#0a0c12",
-                        "accent-blue": "#00f2ff"
-                    },
                     fontFamily: {
-                        "display": ["Orbitron", "sans-serif"],
-                        "body": ["Orbitron", "sans-serif"]
+                        sans: ['Space Grotesk', 'sans-serif'],
+                        display: ['Syne', 'sans-serif'],
                     },
-                    borderRadius: {
-                        "DEFAULT": "0.125rem",
-                        "lg": "0.25rem",
-                        "xl": "0.5rem",
-                        "full": "9999px"
-                    },
-                },
-            },
-        }
-    </script>
-    <style type="text/tailwindcss">
-        body{
-            padding: 0px;
-            margin: 0px;
-            overflow-x: hidden;
-        }
-        @layer base {
-            body {
-                font-family: 'Orbitron', sans-serif;
-                letter-spacing: 0.05em;
+                    colors: {
+                        glass: {
+                            100: 'rgba(255, 255, 255, 0.05)',
+                            200: 'rgba(255, 255, 255, 0.1)',
+                            300: 'rgba(255, 255, 255, 0.15)',
+                            400: 'rgba(255, 255, 255, 0.2)',
+                            500: 'rgba(255, 255, 255, 0.3)',
+                        }
+                    }
+                }
             }
         }
-        .service-tab {  
-            @apply text-slate-500 hover:text-white border-b-2 border-transparent pb-4 px-2 text-[10px] font-black uppercase tracking-widest transition-all;
-        }
-        .active-tab {
-            @apply text-accent-blue border-accent-blue;
-        }
-
-        .glow-accent {
-            box-shadow: 0 0 20px rgba(19, 91, 236, 0.5);
-        }
-        .blue-glow-text {
-            text-shadow: 0 0 10px rgba(0, 242, 255, 0.6);
-        }
-        .circuit-bg {
-            background-image: radial-gradient(circle at 2px 2px, rgba(19, 91, 236, 0.15) 1px, transparent 0);
-            background-size: 32px 32px;
-        }
-        .glass-card {
-            background: rgba(10, 12, 18, 0.8);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(19, 91, 236, 0.3);
-        }
-        .no-scrollbar::-webkit-scrollbar {
-            display: none;
-        }
-        .no-scrollbar {
-            -ms-overflow-style: none;
-            scrollbar-width: none;
-        }
-        #menu-toggle:checked ~ #mobile-menu {
-            transform: translateX(0);
-        }
-.dropdown-item {
-    padding: 12px 16px;
-    color: white;
-    font-size: 14px;
-    cursor: pointer;
-    transition: all 0.2s ease;
-}
-.dropdown-item:hover {
-    background: linear-gradient(to right, #135bec, #00f2ff);
-    color: white;
-}
-
-    </style>
+    </script>
 </head>
 
-<body class="bg-background-dark text-white selection:bg-primary selection:text-white">
-    <input class="hidden" id="menu-toggle" type="checkbox" />
-    <header
-        class="fixed top-0 w-full z-50 border-b border-[#135bec]/30 bg-background-dark/90 backdrop-blur-xl px-4 lg:px-20 py-4">
-        <div class="max-w-7xl mx-auto flex items-center justify-between">
-            <div class="flex items-center gap-3">
-                <div class="size-8 text-accent-blue flex items-center justify-center">
-                    <span class="material-symbols-outlined text-3xl font-bold">terminal</span>
+<body class="bg-black text-white antialiased overflow-x-hidden">
+
+    <!-- Animated Background -->
+    <div class="fixed inset-0 z-0 pointer-events-none">
+        <div class="absolute top-0 left-1/4 w-96 h-96 bg-white/5 rounded-full blur-[150px] animate-float"></div>
+        <div
+            class="absolute bottom-0 right-1/4 w-[500px] h-[500px] bg-white/3 rounded-full blur-[200px] animate-float-delayed">
+        </div>
+        <div
+            class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-gradient-radial from-white/5 to-transparent rounded-full">
+        </div>
+
+        <!-- Grid Pattern -->
+        <div
+            class="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:4rem_4rem]">
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full z-50 glass-nav">
+        <div class="max-w-7xl mx-auto px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <!-- Logo -->
+                <a href="#" class="flex items-center gap-3 group">
+                    <div
+                        class="w-10 h-10 rounded-xl glass-strong flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                d="M13 10V3L4 14h7v7l9-11h-7z" />
+                        </svg>
+                    </div>
+                    <span class="font-display font-bold text-xl tracking-tight">De Silent Order</span>
+                </a>
+
+                <!-- Desktop Menu -->
+                <div class="hidden md:flex items-center gap-1">
+                    <a href="#projects"
+                        class="nav-link px-4 py-2 text-sm font-medium text-white/70 hover:text-white transition-colors">Deployments</a>
+                    <a href="#services"
+                        class="nav-link px-4 py-2 text-sm font-medium text-white/70 hover:text-white transition-colors">Services</a>
+                    <a href="#team"
+                        class="nav-link px-4 py-2 text-sm font-medium text-white/70 hover:text-white transition-colors">Team</a>
+                    <a href="#contact"
+                        class="nav-link px-4 py-2 text-sm font-medium text-white/70 hover:text-white transition-colors">Contact</a>
                 </div>
-                <h2 class="text-white text-base md:text-xl font-black leading-tight tracking-[0.1em] uppercase">De
-                    Silent Order</h2>
-            </div>
-            <nav class="hidden xl:flex items-center gap-8">
-                <a class="text-white/70 hover:text-accent-blue text-sm font-bold transition-colors uppercase tracking-widest"
-                    href="#services">Services</a>
-                <a class="text-white/70 hover:text-accent-blue text-sm font-bold transition-colors uppercase tracking-widest"
-                    href="#precision">About Us</a>
-                <a class="text-white/70 hover:text-accent-blue text-sm font-bold transition-colors uppercase tracking-widest"
-                    href="#projects">Deployments</a>
-                <a class="text-white/70 hover:text-accent-blue text-sm font-bold transition-colors uppercase tracking-widest"
-                    href="#contact">Contact</a>
-            </nav>
-            <div class="flex items-center gap-4">
-                <button id="openTerminal"
-    class="hidden sm:flex min-w-[140px] cursor-pointer items-center justify-center
-           border border-primary/50 h-10 px-4 bg-primary/10 text-white
-           text-[9px] font-black uppercase tracking-[0.2em]
-           glow-accent hover:bg-primary transition-all">
-    Access Terminal
-</button>
 
+                <!-- CTA -->
+                <div class="flex items-center gap-4">
+                    <button id="openTerminal"
+                        class="hidden md:flex items-center gap-2 px-5 py-2.5 rounded-xl glass hover:bg-white/10 transition-all duration-300 border border-white/10 hover:border-white/30">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                        </svg>
+                        <span class="text-sm font-medium">Terminal</span>
+                    </button>
 
-           
-                <label
-                    class="xl:hidden cursor-pointer size-10 flex items-center justify-center border border-primary/30 text-accent-blue"
-                    for="menu-toggle">
-                    <span class="material-symbols-outlined">menu</span>
-                </label>
+                    <button id="mobileMenuBtn" class="md:hidden p-2 glass rounded-lg">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                    </button>
+                </div>
             </div>
         </div>
-    </header>
-    <!-- Terminal Overlay -->
-<div id="terminalOverlay"
-     class="fixed inset-0 bg-black/80 backdrop-blur-md z-[999]
-            hidden flex items-center justify-center p-2 sm:p-4">
 
-    <!-- Terminal Window -->
-    <div class="w-full max-w-3xl h-[92svh] sm:h-[70svh]
-                bg-[#05070c] border border-primary/40
-                shadow-[0_0_40px_rgba(19,91,236,0.4)]
-                flex flex-col mx-auto my-auto">
+        <!-- Mobile Menu -->
+        <div id="mobileMenu" class="hidden md:hidden glass border-t border-white/10">
+            <div class="px-4 py-4 space-y-2">
+                <a href="#projects"
+                    class="block px-4 py-3 rounded-xl glass text-white font-medium hover:bg-white/10 transition-colors">Deployments</a>
+                <a href="#services"
+                    class="block px-4 py-3 rounded-xl glass text-white font-medium hover:bg-white/10 transition-colors">Services</a>
+                <a href="#team"
+                    class="block px-4 py-3 rounded-xl glass text-white font-medium hover:bg-white/10 transition-colors">Team</a>
+                <a href="#contact"
+                    class="block px-4 py-3 rounded-xl glass text-white font-medium hover:bg-white/10 transition-colors">Contact</a>
 
-        <!-- Header -->
-        <div class="flex items-center justify-between px-4 py-2 border-b border-white/10">
-            <div class="flex items-center gap-2 text-accent-blue text-xs font-black uppercase tracking-widest">
-                <span class="material-symbols-outlined text-sm">terminal</span>
-                Neural Terminal
-            </div>
-            <button id="closeTerminal"
-                    class="text-slate-400 hover:text-red-500 text-lg">
-                ✕
-            </button>
-        </div>
-
-        <!-- Terminal Body -->
-        <div id="terminalBody"
-             class="flex-1 p-4 text-[13px] sm:text-sm
-                    font-mono text-green-400
-                    overflow-y-auto space-y-2">
-            <div>DSO Neural Agent v1.0</div>
-            <div>Type <span class="text-accent-blue">help</span> to begin.</div>
-        </div>
-
-        <!-- Input -->
-        <div class="border-t border-white/10 px-4 py-3 flex items-center gap-2">
-            <span class="text-accent-blue font-mono">$</span>
-            <input id="terminalInput" type="text"
-                   class="flex-1 bg-transparent outline-none
-                          text-green-400 font-mono text-sm"
-                   placeholder="Enter command..." />
-        </div>
-    </div>
-</div>
-
-    <div class="fixed inset-y-0 right-0 w-64 bg-background-dark/95 backdrop-blur-2xl z-[60] border-l border-primary/20 transition-transform duration-300 transform translate-x-full xl:hidden"
-        id="mobile-menu">
-        <div class="p-6 flex flex-col h-full">
-            <div class="flex justify-end mb-10">
-                <label class="cursor-pointer text-accent-blue" for="menu-toggle">
-                    <span class="material-symbols-outlined text-3xl">close</span>
-                </label>
-            </div>
-            <nav class="flex flex-col gap-6">
-                <a class="text-white text-sm font-black uppercase tracking-[0.2em] hover:text-accent-blue"
-                    href="#services" onclick="document.getElementById('menu-toggle').checked = false">Services</a>
-                <a class="text-white text-sm font-black uppercase tracking-[0.2em] hover:text-accent-blue"
-                    href="#precision" onclick="document.getElementById('menu-toggle').checked = false">About Us</a>
-                <a class="text-white text-sm font-black uppercase tracking-[0.2em] hover:text-accent-blue"
-                    href="#projects" onclick="document.getElementById('menu-toggle').checked = false">Deployments</a>
-                <a class="text-white text-sm font-black uppercase tracking-[0.2em] hover:text-accent-blue"
-                    href="#contact" onclick="document.getElementById('menu-toggle').checked = false">Contact</a>
-            </nav>
-            <div class="mt-auto">
-               <button
-    id="openTerminalMobile"
-    class="w-full border border-primary/50 py-4 text-[9px]
-           font-black uppercase tracking-widest
-           bg-primary/10 text-white">
-    Access Terminal
-</button>
-
+                <button id="openTerminalMobile"
+                    class="flex items-center gap-2 px-4 py-3 rounded-xl glass text-white font-medium hover:bg-white/10 transition-all duration-300 border border-white/10 hover:border-white/30 w-full">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                    </svg>
+                    <span>Terminal</span>
+                </button>
             </div>
         </div>
-    </div>
-    <main>
-        <section class="relative min-h-screen flex items-center circuit-bg overflow-hidden pt-20">
-            <div
-                class="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-transparent via-background-dark/20 to-background-dark pointer-events-none">
-            </div>
-            <div
-                class="max-w-7xl mx-auto px-6 lg:px-20 py-20 w-full grid lg:grid-cols-2 gap-16 items-center relative z-10">
-                <div class="flex flex-col gap-10">
-                    <div class="inline-flex items-center gap-3 px-4 py-2 bg-primary/10 border border-primary/30 w-fit">
-                        <span class="flex h-2 w-2 bg-accent-blue animate-pulse shadow-[0_0_8px_#00f2ff]"></span>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="relative min-h-screen flex items-center pt-20 overflow-hidden">
+        <div class="relative z-10 max-w-7xl mx-auto px-6 lg:px-8 py-20">
+            <div class="grid lg:grid-cols-2 gap-16 items-center">
+
+                <!-- Left Content -->
+                <div class="space-y-8">
+                    <div class="inline-flex items-center gap-3 px-4 py-2 rounded-full glass border border-white/10">
+                        <span class="relative flex h-2.5 w-2.5">
+                            <span
+                                class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                            <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
+                        </span>
+                        <span class="text-xs font-medium tracking-wide text-white/80">Available for new projects</span>
+                    </div>
+
+                    <h1 class="font-display font-bold text-6xl md:text-7xl lg:text-8xl leading-[0.9] tracking-tight">
+                        Build in <br />
                         <span
-                            class="text-accent-blue text-[10px] font-black uppercase tracking-[0.3em] leading-none">Status:
-                            Operational</span>
-                    </div>
-                    <div class="flex flex-col gap-6">
-                        <h1 class="text-white text-5xl md:text-8xl font-black leading-[0.9] tracking-tighter uppercase">
-                            BUILD IN <br /> <span
-                                class="text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent-blue blue-glow-text">SILENCE</span>
-                        </h1>
-                        <p
-                            class="text-slate-400 text-lg md:text-xl font-medium leading-relaxed max-w-xl border-l-2 border-primary pl-6">
-                            Turning business ideas into reality through surgical precision and advanced neural
-                            engineering. We create resolution projects for the digital vanguard.
-                        </p>
-                    </div>
-                    <div class="flex flex-wrap gap-6">
-                        <a href="#services"
-                            class="flex min-w-[220px] cursor-pointer items-center justify-center bg-primary text-white text-xs font-black uppercase tracking-[0.25em] h-14 glow-accent hover:brightness-125 transition-all">
-                            Initiate Protocol
+                            class="text-transparent bg-clip-text bg-gradient-to-r from-white via-white/90 to-white/60">Silence</span>
+                    </h1>
+
+                    <p class="text-lg text-white/60 max-w-md leading-relaxed font-light">
+                        We architect digital experiences with surgical precision. No noise, just results that speak for
+                        themselves.
+                    </p>
+
+                    <div class="flex flex-wrap gap-4 pt-4">
+                        <a href="#projects"
+                            class="group inline-flex items-center gap-3 px-8 py-4 bg-white text-black rounded-xl font-semibold hover:scale-105 transition-transform duration-300">
+                            Explore Work
+                            <svg class="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none"
+                                stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                            </svg>
                         </a>
                         <a href="#contact"
-                            class="flex min-w-[220px] cursor-pointer items-center justify-center border border-white/20 text-white text-xs font-black uppercase tracking-[0.25em] h-14 hover:bg-white/5 transition-all">
-                            System Logs
+                            class="inline-flex items-center gap-3 px-8 py-4 glass rounded-xl font-semibold border border-white/20 hover:border-white/40 hover:bg-white/5 transition-all duration-300">
+                            Start Project
                         </a>
                     </div>
+                    <!-- Stats Row -->
+                    <div class="stats-container flex flex-wrap gap-8 md:gap-12 pt-8 border-t border-white/10">
+                        <div class="space-y-1">
+                            <div class="text-3xl font-display font-bold text-white">
+                                <span class="counter" data-target="10" data-suffix="+">0</span>
+                            </div>
+                            <div class="text-xs text-white/50 uppercase tracking-wider">Projects</div>
+                        </div>
+                        <div class="space-y-1">
+                            <div class="text-3xl font-display font-bold text-white">
+                                <span class="counter" data-target="100" data-suffix="%">0</span>
+                            </div>
+                            <div class="text-xs text-white/50 uppercase tracking-wider">Satisfaction</div>
+                        </div>
+                        <div class="space-y-1">
+                            <div class="text-3xl font-display font-bold text-white">
+                                <span class="counter" data-target="24" data-suffix="/7">0</span>
+                            </div>
+                            <div class="text-xs text-white/50 uppercase tracking-wider">Support</div>
+                        </div>
+                    </div>
                 </div>
-                <div class="relative flex justify-center items-center">
-                    <div class="absolute inset-0 bg-primary/20 blur-[150px] rounded-full animate-pulse"></div>
+
+                <!-- Right Visual -->
+                <div class="relative">
                     <div
-                        class="relative w-full aspect-square max-w-[550px] border border-primary/30 bg-background-dark/60 p-1 group">
-                        <div class="absolute -top-4 -left-4 w-12 h-12 border-t-2 border-l-2 border-accent-blue"></div>
-                        <div class="absolute -bottom-4 -right-4 w-12 h-12 border-b-2 border-r-2 border-accent-blue">
-                        </div>
-                        <img alt="Futuristic robotic head graphic"
-                            class="w-full h-full object-cover opacity-90 grayscale group-hover:grayscale-0 transition-all duration-1000"
-                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuBs4Hwc3QIE7yY4A08UhlFP-92j5a0FAFQupEyVJJNgRmRiV65u-q8fdtChG1gE6WeQR-vMVChcGlsnUV1odn2sEi1eW5MkP-dwsVHeOZdalrKhNtFO6DdFikzlvbfvXiEtgPJH5azxAdzUdJid5bekVZijFCJ7dosZpVig_0m7hEEN7I-MlHUCtutshjiVAQByLmtsnuEvV7ojRRJUsvGE1a71qyqkXnlV9WjwmALWpJqysDNdE4aBLYdNRk_0m1ak-f0FNVOhkYs" />
-                        <div
-                            class="absolute inset-0 bg-gradient-to-t from-background-dark/80 via-transparent to-transparent">
-                        </div>
-                        <div class="absolute bottom-6 left-6 right-6">
-                            <div class="flex justify-between items-end border-t border-white/10 pt-4">
-                                <div class="text-[10px] font-black uppercase tracking-widest text-accent-blue">
-                                    Resolution: 8K Output</div>
-                                <div class="text-[10px] font-black uppercase tracking-widest text-white/40">Core:
-                                    Neural-01</div>
+                        class="absolute -inset-4 bg-gradient-to-r from-white/20 to-white/5 rounded-3xl blur-2xl opacity-30">
+                    </div>
+
+                    <div class="relative glass-strong rounded-3xl border border-white/20 p-2 overflow-hidden group">
+                        <div class="aspect-[4/5] rounded-2xl overflow-hidden relative">
+                            <img src="https://kimi-web-img.moonshot.cn/img/wallpapercave.com/623685ac15efa0853ac3cc485216489ed6466ab3.jpg"
+                                alt="Terminal Code"
+                                class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 scale-105 group-hover:scale-110" />
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent">
+                            </div>
+
+                            <!-- Floating Info Card -->
+                            <div class="absolute bottom-6 left-6 right-6 glass rounded-2xl p-4 border border-white/10">
+                                <div class="flex items-center justify-between">
+                                    <div class="flex items-center gap-3">
+                                        <div
+                                            class="w-12 h-12 rounded-xl bg-white/10 flex items-center justify-center backdrop-blur-sm">
+                                            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor"
+                                                viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                                    d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
+                                            </svg>
+                                        </div>
+                                        <div>
+                                            <div class="text-sm font-semibold text-white">Neural Core</div>
+                                            <div class="text-xs text-white/50">System Operational</div>
+                                        </div>
+                                    </div>
+                                    <div
+                                        class="flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-500/20 border border-emerald-500/30">
+                                        <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                                        <span class="text-xs font-medium text-emerald-400">Live</span>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
-        </section>
-        <section class="py-24 bg-background-dark relative overflow-hidden" id="precision">
-            <div class="absolute right-0 top-0 w-1/3 h-full bg-primary/5 blur-[120px]"></div>
-            <div class="max-w-7xl mx-auto px-6 lg:px-20 relative z-10">
-                <div class="grid lg:grid-cols-2 gap-20 items-center">
-                    <div class="flex flex-col gap-8">
-                        <h2 class="text-white text-4xl md:text-5xl font-black uppercase tracking-tight">
-                            Clear & Reliable <span class="text-primary">Precision</span>
-                        </h2>
 
-                        <p class="text-slate-400 text-lg leading-relaxed">
-                            At De Silent Order, we focus on building things the right way. Every line of code is written
-                            with
-                            care, and every design is made to be easy to use while working smoothly behind the scenes.
-                        </p>
-
-                        <div class="grid grid-cols-2 gap-8">
-                            <div class="flex flex-col gap-2 border-l-2 border-primary/40 pl-4">
-                                <span class="text-3xl font-black text-white">0.001ms</span>
-                                <span class="text-[10px] font-bold text-slate-500 uppercase tracking-widest">
-                                    Fast Response Time
-                                </span>
-                            </div>
-
-                            <div class="flex flex-col gap-2 border-l-2 border-primary/40 pl-4">
-                                <span class="text-3xl font-black text-white">100%</span>
-                                <span class="text-[10px] font-bold text-slate-500 uppercase tracking-widest">
-                                    Data Accuracy
-                                </span>
-                            </div>
-                        </div>
-
-                        <p class="text-primary text-sm font-black uppercase tracking-[0.2em]">
-                            We turn ideas into working solutions using smart and reliable technology.
-                        </p>
-                    </div>
-
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div class="glass-card p-8 flex flex-col gap-4">
-                            <span class="material-symbols-outlined text-accent-blue text-3xl">verified</span>
-                            <h4 class="text-white font-black uppercase text-sm">High Quality</h4>
-                            <p class="text-slate-500 text-xs leading-relaxed uppercase">
-                                Every project is built carefully and checked before delivery.
-                            </p>
-                        </div>
-
-                        <div class="glass-card p-8 flex flex-col gap-4 mt-4 md:mt-12">
-                            <span class="material-symbols-outlined text-accent-blue text-3xl">
-                                precision_manufacturing
-                            </span>
-                            <h4 class="text-white font-black uppercase text-sm">Accurate Systems</h4>
-                            <p class="text-slate-500 text-xs leading-relaxed uppercase">
-                                Automated testing helps us deliver stable and error-free results.
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <section class="py-20 md:py-32 px-4 sm:px-6 lg:px-20 max-w-7xl mx-auto" id="services">
-            <div class="flex flex-col gap-12 md:gap-16">
-
-                <!-- Heading -->
-                <div class="flex flex-col gap-4 text-center items-center">
-                    <h2 class="text-white text-3xl sm:text-4xl md:text-6xl font-black uppercase tracking-tight">
-                        Modular Services
-                    </h2>
-                    <p class="text-slate-400 text-sm sm:text-base max-w-2xl uppercase tracking-widest">
-                        Flexible solutions built to solve real business problems efficiently.
-                    </p>
-                </div>
-
-                <!-- Tabs -->
-                <div class="w-full">
+                    <!-- Decorative Elements -->
                     <div
-                        class="flex no-scrollbar overflow-x-auto md:flex-wrap justify-start md:justify-center border-b border-[#135bec]/20 gap-x-6 gap-y-4 mb-12 pb-2 scrollbar-hide">
-
-                        <button data-service="Web Development" class="service-tab active-tab whitespace-nowrap text-accent-blue border-b-2 border-accent-blue pb-3 px-2 text-sm sm:text-base md:text-[12px] lg:text-[12px]
- font-black uppercase tracking-widest transition-all">
-                            Web Development
-                        </button>
-
-                        <button data-service="App Development" class="service-tab whitespace-nowrap text-slate-500 hover:text-white border-b-2 border-transparent pb-3 px-2 text-sm sm:text-base md:text-[12px] lg:text-[12px]
- font-black uppercase tracking-widest transition-all">
-                            App Development
-                        </button>
-
-                        <button data-service="WordPress" class="service-tab whitespace-nowrap text-slate-500 hover:text-white border-b-2 border-transparent pb-3 px-2 text-sm sm:text-base md:text-[12px] lg:text-[12px]
- font-black uppercase tracking-widest transition-all">
-                            WordPress
-                        </button>
-
-                        <button data-service="AI Agents" class="service-tab whitespace-nowrap text-slate-500 hover:text-white border-b-2 border-transparent pb-3 px-2 text-sm sm:text-base md:text-[12px] lg:text-[12px]
- font-black uppercase tracking-widest transition-all">
-                            AI Agents
-                        </button>
-
-                        <button data-service="Shopify" class="service-tab whitespace-nowrap text-slate-500 hover:text-white border-b-2 border-transparent pb-3 px-2 text-sm sm:text-base md:text-[12px] lg:text-[12px]
- font-black uppercase tracking-widest transition-all">
-                            Shopify
-                        </button>
-
-                        <button data-service="CRM" class="service-tab whitespace-nowrap text-slate-500 hover:text-white border-b-2 border-transparent pb-3 px-2 text-sm sm:text-base md:text-[12px] lg:text-[12px]
- font-black uppercase tracking-widest transition-all">
-                            CRM
-                        </button>
-
-                        <button data-service="System Designs" class="service-tab whitespace-nowrap text-slate-500 hover:text-white border-b-2 border-transparent pb-3 px-2 text-sm sm:text-base md:text-[12px] lg:text-[12px]
- font-black uppercase tracking-widest transition-all">
-                            System Design
-                        </button>
+                        class="absolute -top-6 -right-6 w-24 h-24 border border-white/20 rounded-full animate-spin-slow">
                     </div>
-
-                    <!-- Cards -->
-                    <div id="serviceCards" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4"></div>
+                    <div class="absolute -bottom-8 -left-8 w-32 h-32 border border-white/10 rounded-full"></div>
                 </div>
-
             </div>
-        </section>
+        </div>
+    </section>
 
-        <section class="py-24 bg-background-dark overflow-hidden border-t border-white/5" id="projects">
-
-            <!-- Header -->
-            <div
-                class="max-w-7xl mx-auto px-6 lg:px-20 mb-16 flex flex-col md:flex-row justify-between items-end gap-8">
-                <div class="flex flex-col gap-4">
-                    <h2 class="text-white text-4xl font-black uppercase tracking-tight">
-                        Active Deployments
-                    </h2>
-                    <p class="text-slate-500 text-sm uppercase tracking-widest">
-                        Successful resolution projects across global sectors.
-                    </p>
+    <!-- Projects Section -->
+    <section id="projects" class="relative py-32">
+        <div class="max-w-7xl mx-auto px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-end gap-8 mb-16">
+                <div class="space-y-4">
+                    <div
+                        class="inline-flex items-center gap-2 text-sm font-medium text-white/50 uppercase tracking-wider">
+                        <span class="w-8 h-[1px] bg-white/30"></span>
+                        Portfolio
+                    </div>
+                    <h2 class="font-display font-bold text-4xl md:text-5xl lg:text-6xl">Active Deployments</h2>
+                    <p class="text-white/50 max-w-md">Crafted with precision, deployed with confidence</p>
                 </div>
 
-                <!-- Controls -->
-                <div class="flex gap-4">
+                <div class="flex gap-3">
                     <button id="projectPrev"
-                        class="size-14 border border-white/10 flex items-center justify-center text-white hover:border-accent-blue hover:text-accent-blue transition-all">
-                        <span class="material-symbols-outlined">west</span>
+                        class="p-4 rounded-2xl glass border border-white/10 hover:border-white/30 hover:bg-white/5 transition-all duration-300 group">
+                        <svg class="w-5 h-5 text-white/70 group-hover:text-white transition-colors" fill="none"
+                            stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                        </svg>
                     </button>
                     <button id="projectNext"
-                        class="size-14 border border-white/10 flex items-center justify-center text-white hover:border-accent-blue hover:text-accent-blue transition-all">
-                        <span class="material-symbols-outlined">east</span>
+                        class="p-4 rounded-2xl glass border border-white/10 hover:border-white/30 hover:bg-white/5 transition-all duration-300 group">
+                        <svg class="w-5 h-5 text-white/70 group-hover:text-white transition-colors" fill="none"
+                            stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                        </svg>
                     </button>
                 </div>
             </div>
 
-            <!-- Cards -->
-            <div id="projectsTrack"
-                class="flex gap-8 overflow-x-auto pb-12 px-6 lg:px-20 no-scrollbar snap-x scroll-smooth">
+            <div id="projectsTrack" class="flex gap-6 overflow-x-auto pb-8 snap-x snap-mandatory scrollbar-hide">
+                <!-- Projects injected by JS -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="relative py-32">
+        <div class="max-w-7xl mx-auto px-6 lg:px-8">
+            <div class="text-center max-w-2xl mx-auto mb-16 space-y-4">
+                <div class="inline-flex items-center gap-2 text-sm font-medium text-white/50 uppercase tracking-wider">
+                    <span class="w-8 h-[1px] bg-white/30"></span>
+                    Capabilities
+                    <span class="w-8 h-[1px] bg-white/30"></span>
+                </div>
+                <h2 class="font-display font-bold text-4xl md:text-5xl">Modular Services</h2>
+                <p class="text-white/50">Every solution tailored to your unique challenges</p>
             </div>
 
-        </section>
-
-        <section class="py-16 border-y border-white/5 bg-background-dark/80" id="stats">
-            <div class="max-w-7xl mx-auto px-6 lg:px-20 grid grid-cols-2 md:grid-cols-4 gap-12">
-
-                <div class="flex flex-col items-center">
-                    <span class="stat-number text-4xl md:text-6xl font-black text-white mb-2" data-target="10">0</span>
-                    <span class="text-accent-blue text-[11px] font-black uppercase tracking-[0.3em]">
-                        Projects Delivered
-                    </span>
-                </div>
-
-                <div class="flex flex-col items-center">
-                    <span class="stat-number text-4xl md:text-6xl font-black text-white mb-2" data-target="100"
-                        data-suffix="%">0%</span>
-                    <span class="text-accent-blue text-[11px] font-black uppercase tracking-[0.3em]">
-                        Client Satisfaction
-                    </span>
-                </div>
-
-                <div class="flex flex-col items-center">
-                    <span class="stat-number text-4xl md:text-6xl font-black text-white mb-2" data-target="99.9"
-                        data-suffix="%">0%</span>
-                    <span class="text-accent-blue text-[11px] font-black uppercase tracking-[0.3em]">
-                        System Uptime
-                    </span>
-                </div>
-
-                <div class="flex flex-col items-center">
-                    <span class="stat-number text-4xl md:text-6xl font-black text-white mb-2" data-target="24"
-                        data-suffix="/7">0</span>
-                    <span class="text-accent-blue text-[11px] font-black uppercase tracking-[0.3em]">
-                        Support Availability
-                    </span>
-                </div>
-
+            <!-- Service Tabs -->
+            <div class="flex flex-wrap justify-center gap-3 mb-12">
+                <button
+                    class="service-tab active-tab px-6 py-3 rounded-full text-sm font-medium border transition-all duration-300"
+                    data-service="Web Development">Web Development</button>
+                <button
+                    class="service-tab px-6 py-3 rounded-full text-sm font-medium border transition-all duration-300"
+                    data-service="App Development">App Development</button>
+                <button
+                    class="service-tab px-6 py-3 rounded-full text-sm font-medium border transition-all duration-300"
+                    data-service="WordPress">WordPress</button>
+                <button
+                    class="service-tab px-6 py-3 rounded-full text-sm font-medium border transition-all duration-300"
+                    data-service="AI Agents">AI Agents</button>
+                <button
+                    class="service-tab px-6 py-3 rounded-full text-sm font-medium border transition-all duration-300"
+                    data-service="Shopify">Shopify</button>
+                <button
+                    class="service-tab px-6 py-3 rounded-full text-sm font-medium border transition-all duration-300"
+                    data-service="CRM">CRM</button>
+                <button
+                    class="service-tab px-6 py-3 rounded-full text-sm font-medium border transition-all duration-300"
+                    data-service="System Designs">System Design</button>
             </div>
-        </section>
 
-        <section class="py-32 max-w-7xl mx-auto px-6 lg:px-20" id="team">
-            <div class="flex flex-col gap-20">
+            <div id="serviceCards" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Service cards injected by JS -->
+            </div>
+        </div>
+    </section>
 
-                <!-- Heading -->
-                <div class="text-center flex flex-col items-center gap-4">
-                    <h2 class="text-white text-4xl font-black uppercase tracking-tight">
-                        System Architects
-                    </h2>
-                    <p class="text-slate-500 text-[12px] uppercase tracking-[0.4em]">
-                        The people behind your projects
+    <!-- About Section -->
+    <section id="precision" class="relative py-32 overflow-hidden">
+        <div class="absolute inset-0 bg-gradient-to-b from-transparent via-white/[0.02] to-transparent"></div>
+
+        <div class="max-w-7xl mx-auto px-6 lg:px-8 relative">
+            <div class="grid lg:grid-cols-2 gap-20 items-center">
+                <div class="space-y-8">
+                    <div class="space-y-4">
+                        <div
+                            class="inline-flex items-center gap-2 text-sm font-medium text-white/50 uppercase tracking-wider">
+                            <span class="w-8 h-[1px] bg-white/30"></span>
+                            About Us
+                        </div>
+                        <h2 class="font-display font-bold text-4xl md:text-5xl lg:text-6xl leading-tight">
+                            Clear &<br />Reliable Precision
+                        </h2>
+                    </div>
+
+                    <p class="text-lg text-white/60 leading-relaxed font-light">
+                        At De Silent Order, we focus on building things the right way. Every line of code is written
+                        with care, every design decision is intentional, and every project is delivered with precision.
                     </p>
+
+                    <div class="grid grid-cols-2 gap-6">
+                        <div class="glass-strong rounded-2xl p-6 border border-white/10">
+                            <div class="text-4xl font-display font-bold text-white mb-2">0.001<span
+                                    class="text-lg text-white/40">ms</span></div>
+                            <div class="text-sm text-white/50">Response Time</div>
+                        </div>
+                        <div class="glass-strong rounded-2xl p-6 border border-white/10">
+                            <div class="text-4xl font-display font-bold text-white mb-2">100<span
+                                    class="text-lg text-white/40">%</span></div>
+                            <div class="text-sm text-white/50">Data Accuracy</div>
+                        </div>
+                    </div>
                 </div>
 
-                <!-- Cards -->
-                <div id="teamGrid" class="grid grid-cols-2 md:grid-cols-3 gap-1 md:gap-10"></div>
+                <div class="grid sm:grid-cols-2 gap-4">
+                    <div
+                        class="glass-card rounded-2xl p-6 border border-white/10 hover:border-white/30 transition-all duration-500 group">
+                        <div
+                            class="w-14 h-14 rounded-2xl glass flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+                            <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                    d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                        </div>
+                        <h3 class="font-display font-semibold text-xl mb-2">High Quality</h3>
+                        <p class="text-sm text-white/50 leading-relaxed">Every project is built carefully and checked
+                            before delivery.</p>
+                    </div>
 
+                    <div
+                        class="glass-card rounded-2xl p-6 border border-white/10 hover:border-white/30 transition-all duration-500 group sm:mt-8">
+                        <div
+                            class="w-14 h-14 rounded-2xl glass flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+                            <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                    d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                    d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                            </svg>
+                        </div>
+                        <h3 class="font-display font-semibold text-xl mb-2">Accurate Systems</h3>
+                        <p class="text-sm text-white/50 leading-relaxed">Automated testing ensures stable, error-free
+                            results.</p>
+                    </div>
+
+                    <div
+                        class="glass-card rounded-2xl p-6 border border-white/10 hover:border-white/30 transition-all duration-500 group">
+                        <div
+                            class="w-14 h-14 rounded-2xl glass flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+                            <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                    d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                            </svg>
+                        </div>
+                        <h3 class="font-display font-semibold text-xl mb-2">Secure Core</h3>
+                        <p class="text-sm text-white/50 leading-relaxed">Enterprise-grade security in every layer.</p>
+                    </div>
+
+                    <div
+                        class="glass-card rounded-2xl p-6 border border-white/10 hover:border-white/30 transition-all duration-500 group sm:mt-8">
+                        <div
+                            class="w-14 h-14 rounded-2xl glass flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+                            <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                    d="M13 10V3L4 14h7v7l9-11h-7z" />
+                            </svg>
+                        </div>
+                        <h3 class="font-display font-semibold text-xl mb-2">Optimized Speed</h3>
+                        <p class="text-sm text-white/50 leading-relaxed">Lightning-fast performance guaranteed.</p>
+                    </div>
+                </div>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <section class="py-32 border-t border-white/10" id="contact">
-            <div class="max-w-7xl mx-auto px-6 lg:px-20 grid lg:grid-cols-2 gap-24 items-start">
-                <div class="flex flex-col gap-10">
-                    <div class="flex flex-col gap-6">
-                        <h2 class="text-white text-5xl font-black uppercase tracking-tight">Signal Initiation</h2>
-                        <p
-                            class="text-slate-400 text-lg uppercase tracking-wider text-[11px] border-l-2 border-accent-blue pl-6">
-                            Transmit your requirements across our secure frequency. Turning business ideas into reality
-                            through technical excellence and quantifiable precision.
+    <!-- Team Section -->
+    <section id="team" class="relative py-32">
+        <div class="max-w-7xl mx-auto px-6 lg:px-8">
+            <div class="text-center max-w-2xl mx-auto mb-16 space-y-4">
+                <div class="inline-flex items-center gap-2 text-sm font-medium text-white/50 uppercase tracking-wider">
+                    <span class="w-8 h-[1px] bg-white/30"></span>
+                    Leadership
+                    <span class="w-8 h-[1px] bg-white/30"></span>
+                </div>
+                <h2 class="font-display font-bold text-4xl md:text-5xl">System Architects</h2>
+                <p class="text-white/50">The minds behind the machine</p>
+            </div>
+
+            <div id="teamGrid"
+                class="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-8 px-4 sm:px-6 lg:px-8">
+                <!-- Team cards injected by JS -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="relative py-32 overflow-hidden">
+        <div class="absolute inset-0 bg-gradient-to-b from-transparent via-white/[0.02] to-transparent"></div>
+
+        <div class="max-w-7xl mx-auto px-6 lg:px-8 relative">
+            <div class="grid lg:grid-cols-2 gap-16">
+                <div class="space-y-8">
+                    <div class="space-y-4">
+                        <div
+                            class="inline-flex items-center gap-2 text-sm font-medium text-white/50 uppercase tracking-wider">
+                            <span class="w-8 h-[1px] bg-white/30"></span>
+                            Connect
+                        </div>
+                        <h2 class="font-display font-bold text-4xl md:text-5xl lg:text-6xl">Signal<br />Initiation</h2>
+                        <p class="text-lg text-white/60 font-light">Ready to build something extraordinary? Let's talk.
                         </p>
                     </div>
-                    <div class="flex flex-col gap-8">
-                        <div class="flex items-center gap-6 group">
+
+                    <div class="space-y-4">
+                        <a href="mailto:desilentorder@gmail.com"
+                            class="group flex items-center gap-4 p-6 rounded-2xl glass border border-white/10 hover:border-white/30 transition-all duration-300">
                             <div
-                                class="size-16 bg-white/5 border border-white/10 flex items-center justify-center text-accent-blue group-hover:border-accent-blue transition-all">
-                                <span class="material-symbols-outlined text-3xl">satellite_alt</span>
-                            </div>
-                            <div>
-                                <h6 class="text-white font-black uppercase text-xs tracking-widest mb-1">Frequency
-                                    Station</h6>
-                                <p class="text-slate-500 text-[10px] uppercase font-bold tracking-widest">
-                                    desilentorder@gmail.com</p>
-                            </div>
-                        </div>
-                        <div class="flex items-center gap-6 group">
-                            <div
-                                class="size-16 bg-white/5 border border-white/10 flex items-center justify-center text-accent-blue group-hover:border-accent-blue transition-all">
-                                <span class="material-symbols-outlined text-3xl">grid_view</span>
-                            </div>
-                            <div>
-                                <h6 class="text-white font-black uppercase text-xs tracking-widest mb-1">Grid
-                                    Coordinates</h6>
-                                <p class="text-slate-500 text-[10px] uppercase font-bold tracking-widest">Sector 4/7,
-                                    Gurgaon</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <form id="contactForm" class="glass-card p-12 relative">
-                    <div class="absolute -top-1 -left-1 w-4 h-4 bg-accent-blue"></div>
-
-                    <div class="flex flex-col gap-8">
-
-                        <!-- Name + Phone -->
-                        <div class="grid md:grid-cols-2 gap-6">
-                            <div class="flex flex-col gap-3">
-                                <label class="text-white text-[9px] font-black uppercase tracking-[0.3em]">
-                                    Full Name
-                                </label>
-                                <input type="text" placeholder="Enter your name" class="bg-transparent border-0 border-b border-white/20 p-2 text-white text-sm
-                           focus:ring-0 focus:border-accent-blue transition-all outline-none" />
-                            </div>
-
-                            <div class="flex flex-col gap-3">
-                                <label class="text-white text-[9px] font-black uppercase tracking-[0.3em]">
-                                    Contact Number
-                                </label>
-                                <input type="tel" placeholder="+1 234 567 8900" class="bg-transparent border-0 border-b border-white/20 p-2 text-white text-sm
-                           focus:ring-0 focus:border-accent-blue transition-all outline-none" />
-                            </div>
-                        </div>
-
-                        <!-- Email (Full Row) -->
-                        <div class="flex flex-col gap-3">
-                            <label class="text-white text-[9px] font-black uppercase tracking-[0.3em]">
-                                Email Address
-                            </label>
-                            <input type="email" placeholder="your@email.com" class="bg-transparent border-0 border-b border-white/20 p-2 text-white text-sm
-                       focus:ring-0 focus:border-accent-blue transition-all outline-none" />
-                        </div>
-
-                        <!-- Protocol Selection -->
-                        <div class="flex flex-col gap-3 relative">
-                            <label class="text-white text-[9px] font-black uppercase tracking-[0.3em]">
-                                Service Type
-                            </label>
-
-                            <!-- Service Type -->
-                            <div class="relative">
-                                <!-- Trigger -->
-                                <button type="button" id="dropdownBtn" class="w-full mt-2 bg-transparent border-b border-white/20 p-2
-               text-white text-sm flex items-center justify-between
-               cursor-pointer focus:outline-none">
-
-                                    <span id="selectedService" class="text-slate-400">
-                                        Select a service
-                                    </span>
-
-                                    <svg class="w-4 h-4 text-accent-blue" viewBox="0 0 24 24" fill="none"
-                                        stroke="currentColor" stroke-width="2">
-                                        <path d="M6 9l6 6 6-6" />
-                                    </svg>
-                                </button>
-
-                                <!-- Dropdown -->
-                                <div id="dropdownMenu" class="absolute left-0 right-0 mt-2 bg-background-dark
-               border border-white/10 shadow-xl z-50 hidden">
-
-                                    <div class="dropdown-item">Web Development</div>
-                                    <div class="dropdown-item">App Development</div>
-                                    <div class="dropdown-item">AI Agents</div>
-                                    <div class="dropdown-item">WordPress</div>
-                                    <div class="dropdown-item">Shopify</div>
-                                    <div class="dropdown-item">CRM</div>
-                                    <div class="dropdown-item">System Designs</div>
-                                </div>
-
-                            </div>
-
-                            <!-- Custom Arrow -->
-                            <span class="absolute right-2 top-[38px] text-accent-blue pointer-events-none">
-                                <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                    stroke-width="2">
-                                    <path d="M6 9l6 6 6-6" />
+                                class="w-14 h-14 rounded-xl glass-strong flex items-center justify-center group-hover:scale-110 transition-transform">
+                                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                        d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                                 </svg>
-                            </span>
-                        </div>
-                        <input type="hidden" name="service" id="serviceInput">
-                        <!-- Message -->
-                        <div class="flex flex-col gap-3">
-                            <label class="text-white text-[9px] font-black uppercase tracking-[0.3em]">
-                                Project Details
-                            </label>
-                            <textarea rows="4" placeholder="Briefly describe your project requirements..." class="bg-transparent border-0 border-b border-white/20 p-2 text-white text-sm
-                       focus:ring-0 focus:border-accent-blue transition-all outline-none resize-none"></textarea>
-                        </div>
+                            </div>
+                            <div>
+                                <div class="text-sm text-white/50 mb-1">Email</div>
+                                <div class="text-white font-medium group-hover:text-white/80 transition-colors">
+                                    desilentorder@gmail.com</div>
+                            </div>
+                        </a>
 
-                        <!-- Submit -->
-                        <button type="submit" class="w-full h-14 bg-primary text-white font-black uppercase tracking-[0.3em]
-                   text-[11px] glow-accent hover:brightness-125 transition-all">
-                            Send Request
-                        </button>
-
+                        <div class="flex items-center gap-4 p-6 rounded-2xl glass border border-white/10">
+                            <div class="w-14 h-14 rounded-xl glass-strong flex items-center justify-center">
+                                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                        d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                        d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                                </svg>
+                            </div>
+                            <div>
+                                <div class="text-sm text-white/50 mb-1">Location</div>
+                                <div class="text-white font-medium">Sector 4/7, Gurgaon</div>
+                            </div>
+                        </div>
                     </div>
-                </form>
-
-            </div>
-        </section>
-    </main>
-    <footer class="bg-background-dark border-t border-white/10 px-6 lg:px-20 pt-16 pb-10">
-        <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-12 items-center">
-
-            <!-- Brand -->
-            <div class="flex flex-col items-center md:items-start gap-4 text-center md:text-left">
-                <div class="flex items-center gap-3">
-                    <span class="material-symbols-outlined text-accent-blue text-2xl">terminal</span>
-                    <h2 class="text-white text-lg md:text-xl font-black uppercase tracking-[0.25em]">
-                        De Silent Order
-                    </h2>
                 </div>
 
-                <p class="text-slate-500 text-[10px] uppercase font-black tracking-[0.35em]">
-                    Engineering Digital Experiences
-                </p>
+                <form id="contactForm" class="glass-strong rounded-3xl p-8 border border-white/10 space-y-6">
+                    <div class="grid sm:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-sm font-medium text-white/70 mb-3">Full Name</label>
+                            <input type="text" required
+                                class="w-full px-5 py-4 rounded-xl bg-black/50 border border-white/10 text-white placeholder-white/30 focus:border-white/30 focus:outline-none focus:ring-2 focus:ring-white/5 transition-all"
+                                placeholder="John Doe" />
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-white/70 mb-3">Phone</label>
+                            <input type="tel" required
+                                class="w-full px-5 py-4 rounded-xl bg-black/50 border border-white/10 text-white placeholder-white/30 focus:border-white/30 focus:outline-none focus:ring-2 focus:ring-white/5 transition-all"
+                                placeholder="+91 98765 43210" />
+                        </div>
+                    </div>
 
-                <p class="text-primary text-[9px] uppercase font-black tracking-widest">
-                    Build in Silence.
-                </p>
+                    <div>
+                        <label class="block text-sm font-medium text-white/70 mb-3">Email</label>
+                        <input type="email" required
+                            class="w-full px-5 py-4 rounded-xl bg-black/50 border border-white/10 text-white placeholder-white/30 focus:border-white/30 focus:outline-none focus:ring-2 focus:ring-white/5 transition-all"
+                            placeholder="john@example.com" />
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-white/70 mb-3">Service Type</label>
+                        <div class="relative">
+                            <button type="button" id="dropdownBtn"
+                                class="w-full px-5 py-4 rounded-xl bg-black/50 border border-white/10 text-left text-white/70 focus:border-white/30 focus:outline-none transition-all flex items-center justify-between">
+                                <span id="selectedService">Select a service</span>
+                                <svg class="w-5 h-5 text-white/50" fill="none" stroke="currentColor"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M19 9l-7 7-7-7" />
+                                </svg>
+                            </button>
+                            <div id="dropdownMenu"
+                                class="hidden absolute top-full left-0 right-0 mt-2 py-2 rounded-xl bg-black border border-white/20 shadow-2xl z-50 max-h-60 overflow-y-auto">
+                                <div
+                                    class="dropdown-item px-5 py-3 text-sm text-white/70 hover:text-white hover:bg-white/5 cursor-pointer transition-colors">
+                                    Web Development</div>
+                                <div
+                                    class="dropdown-item px-5 py-3 text-sm text-white/70 hover:text-white hover:bg-white/5 cursor-pointer transition-colors">
+                                    App Development</div>
+                                <div
+                                    class="dropdown-item px-5 py-3 text-sm text-white/70 hover:text-white hover:bg-white/5 cursor-pointer transition-colors">
+                                    AI Agents</div>
+                                <div
+                                    class="dropdown-item px-5 py-3 text-sm text-white/70 hover:text-white hover:bg-white/5 cursor-pointer transition-colors">
+                                    WordPress</div>
+                                <div
+                                    class="dropdown-item px-5 py-3 text-sm text-white/70 hover:text-white hover:bg-white/5 cursor-pointer transition-colors">
+                                    Shopify</div>
+                                <div
+                                    class="dropdown-item px-5 py-3 text-sm text-white/70 hover:text-white hover:bg-white/5 cursor-pointer transition-colors">
+                                    CRM</div>
+                                <div
+                                    class="dropdown-item px-5 py-3 text-sm text-white/70 hover:text-white hover:bg-white/5 cursor-pointer transition-colors">
+                                    System Designs</div>
+                            </div>
+                        </div>
+                        <input type="hidden" name="service" id="serviceInput" required />
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-white/70 mb-3">Project Details</label>
+                        <textarea rows="4" required
+                            class="w-full px-5 py-4 rounded-xl bg-black/50 border border-white/10 text-white placeholder-white/30 focus:border-white/30 focus:outline-none focus:ring-2 focus:ring-white/5 transition-all resize-none"
+                            placeholder="Tell us about your vision..."></textarea>
+                    </div>
+
+                    <button type="submit"
+                        class="w-full py-4 rounded-xl bg-white text-black font-semibold text-lg hover:scale-[1.02] hover:shadow-2xl hover:shadow-white/10 transition-all duration-300 flex items-center justify-center gap-3 group">
+                        Initiate Project
+                        <svg class="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none"
+                            stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                        </svg>
+                    </button>
+                </form>
             </div>
-
-            <!-- Navigation -->
-            <div class="flex flex-wrap justify-center gap-8 md:gap-10">
-                <a href="#services"
-                    class="text-slate-500 hover:text-accent-blue transition-colors uppercase text-[10px] font-black tracking-[0.3em]">
-                    Services
-                </a>
-                <a href="#projects"
-                    class="text-slate-500 hover:text-accent-blue transition-colors uppercase text-[10px] font-black tracking-[0.3em]">
-                    Projects
-                </a>
-                <a href="#contact"
-                    class="text-slate-500 hover:text-accent-blue transition-colors uppercase text-[10px] font-black tracking-[0.3em]">
-                    Contact
-                </a>
-                <a href="#privacy"
-                    class="text-slate-500 hover:text-accent-blue transition-colors uppercase text-[10px] font-black tracking-[0.3em]">
-                    Privacy
-                </a>
-            </div>
-
-            <!-- Social Icons -->
-            <div class="flex justify-center md:justify-end gap-5">
-                <a href="#" class="size-10 border border-white/10 flex items-center justify-center
-                      text-slate-500 hover:border-accent-blue hover:text-accent-blue
-                      hover:shadow-[0_0_12px_rgba(0,242,255,0.4)] transition-all">
-                    <span class="material-symbols-outlined text-lg">code</span>
-                </a>
-
-                <a href="#" class="size-10 border border-white/10 flex items-center justify-center
-                      text-slate-500 hover:border-accent-blue hover:text-accent-blue
-                      hover:shadow-[0_0_12px_rgba(0,242,255,0.4)] transition-all">
-                    <span class="material-symbols-outlined text-lg">share</span>
-                </a>
-
-                <a href="#" class="size-10 border border-white/10 flex items-center justify-center
-                      text-slate-500 hover:border-accent-blue hover:text-accent-blue
-                      hover:shadow-[0_0_12px_rgba(0,242,255,0.4)] transition-all">
-                    <span class="material-symbols-outlined text-lg">memory</span>
-                </a>
-            </div>
-
         </div>
+    </section>
 
-        <!-- Bottom Bar -->
-        <div class="max-w-7xl mx-auto mt-12 pt-6 border-t border-white/5 text-center">
-            <p class="text-slate-600 text-[9px] uppercase tracking-[0.4em] font-black">
-                © 2026 De Silent Order. All rights reserved.
-            </p>
+    <!-- Footer -->
+    <footer class="relative py-16 border-t border-white/10">
+        <div class="max-w-7xl mx-auto px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row justify-between items-center gap-8">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-xl glass-strong flex items-center justify-center">
+                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                d="M13 10V3L4 14h7v7l9-11h-7z" />
+                        </svg>
+                    </div>
+                    <span class="font-display font-bold text-xl">De Silent Order</span>
+                </div>
+
+                <div class="flex gap-8">
+                    <a href="#projects" class="text-sm text-white/50 hover:text-white transition-colors">Deployments</a>
+                    <a href="#services" class="text-sm text-white/50 hover:text-white transition-colors">Services</a>
+                    <a href="#team" class="text-sm text-white/50 hover:text-white transition-colors">Team</a>
+                    <a href="#contact" class="text-sm text-white/50 hover:text-white transition-colors">Contact</a>
+                </div>
+
+                <div class="flex gap-3">
+                    <a href="https://www.linkedin.com/company/de-silent-order-ed/"
+                        class="w-11 h-11 rounded-xl glass flex items-center justify-center text-white/50 hover:text-white hover:bg-white/10 transition-all">
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                            <path
+                                d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" />
+                        </svg>
+                    </a>
+                    <a href="https://www.instagram.com/de_silent_order/"
+                        class="w-11 h-11 rounded-xl glass flex items-center justify-center text-white/50 hover:text-white hover:bg-white/10 transition-all">
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                            <path
+                                d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
+                        </svg>
+                    </a>
+                    <a href="mailto:desilentorder@gmail.com"
+                        class="w-11 h-11 rounded-xl glass flex items-center justify-center text-white/50 hover:text-white hover:bg-white/10 transition-all">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                        </svg>
+                    </a>
+                </div>
+            </div>
+            <div class="mt-12 pt-8 border-t border-white/5 text-center">
+                <p class="text-sm text-white/30">&copy; 2026 De Silent Order. All rights reserved.</p>
+            </div>
         </div>
     </footer>
 
-
-    <!-- Custom Popup -->
-    <div id="popupOverlay"
-        class="fixed inset-0 bg-black/70 backdrop-blur-sm hidden items-center justify-center z-[999]">
-
-        <div class="glass-card w-[90%] max-w-md p-8 relative border border-primary/40">
-
-            <!-- Accent Corner -->
-            <div class="absolute -top-1 -left-1 w-4 h-4 bg-accent-blue"></div>
-
-            <!-- Icon -->
-            <div id="popupIcon"
-                class="w-14 h-14 mx-auto mb-4 flex items-center justify-center rounded-full border border-primary/40">
-                <span class="material-symbols-outlined text-3xl text-accent-blue">check_circle</span>
+    <!-- Terminal Modal -->
+    <div id="terminalOverlay"
+        class="hidden fixed inset-0 z-50 bg-black/95 backdrop-blur-xl flex items-center justify-center p-4">
+        <div class="w-full max-w-3xl glass-strong rounded-2xl border border-white/20 overflow-hidden shadow-2xl">
+            <div class="flex items-center justify-between px-6 py-4 border-b border-white/10">
+                <div class="flex items-center gap-4">
+                    <div class="flex gap-2">
+                        <div class="w-3 h-3 rounded-full bg-white/20"></div>
+                        <div class="w-3 h-3 rounded-full bg-white/20"></div>
+                        <div class="w-3 h-3 rounded-full bg-white/20"></div>
+                    </div>
+                    <span class="text-sm text-white/50 font-mono">neural-terminal — zsh</span>
+                </div>
+                <button id="closeTerminal" class="p-2 hover:bg-white/10 rounded-lg transition-colors">
+                    <svg class="w-5 h-5 text-white/50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
             </div>
-
-            <!-- Message -->
-            <h3 id="popupTitle" class="text-white text-lg font-black uppercase tracking-widest text-center mb-2">
-                Success
-            </h3>
-
-            <p id="popupMessage" class="text-slate-400 text-sm text-center leading-relaxed mb-6">
-                Your request has been sent successfully.
-            </p>
-
-            <!-- Button -->
-            <button onclick="closePopup()" class="w-full h-12 bg-primary text-white text-[10px] font-black uppercase tracking-[0.3em]
-                       glow-accent hover:brightness-125 transition-all">
-                Close
-            </button>
+            <div id="terminalBody" class="p-6 h-96 overflow-y-auto font-mono text-sm space-y-2 bg-black/50">
+                <div class="text-white/40">$ initializing neural link...</div>
+                <div class="text-white/40">$ connection established</div>
+                <div class="text-white/60">Type <span class="text-white font-semibold">help</span> to view available
+                    commands.</div>
+            </div>
+            <div class="flex items-center gap-3 px-6 py-4 border-t border-white/10 bg-black/30">
+                <span class="text-white font-mono">$</span>
+                <input id="terminalInput" type="text"
+                    class="flex-1 bg-transparent text-white font-mono text-sm focus:outline-none"
+                    placeholder="Enter command..." autocomplete="off" />
+            </div>
         </div>
     </div>
 
-
-    <script>
-        const teamData = [
-            {
-                name: "Harsh Kumar",
-                role: "CEO",
-                image: "/assets/home/harsh.jpeg",
-                socials: {
-                    linkedin: "https://www.linkedin.com/in/harsh-kumar-b6485826b/",
-                    github: "#",
-                    instagram: "#"
-                }
-            },
-            {
-                name: "Himanshu Swami",
-                role: "CFO & CTO",
-                image: "/assets/home/himanshu.jpg",
-                socials: {
-                    linkedin: "https://www.linkedin.com/in/himanshu-swami-02ab7729b",
-                    github: "#",
-                    instagram: "#"
-                }
-            },
-            {
-                name: "Karan Negi",
-                role: "CFO & CMO",
-                image: "/assets/home/karan.png",
-                socials: {
-                    linkedin: "https://www.linkedin.com/in/knegi/",
-                    github: "#",
-                    instagram: "#"
-                }
-            }
-        ];
-    </script>
-
-
-    <script>
-        const teamGrid = document.getElementById("teamGrid");
-
-        function renderTeam() {
-            teamGrid.innerHTML = "";
-
-            teamData.forEach(member => {
-                teamGrid.innerHTML += `
-        <div class="group bg-white/5 p-4 border border-transparent hover:border-primary/40 transition-all">
-
-            <div class="relative aspect-square overflow-hidden mb-6">
-                <img src="${member.image}" alt="${member.name}"
-                     class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700">
-                <div class="absolute inset-0 border-[8px] border-background-dark group-hover:border-0 transition-all"></div>
+    <!-- Popup Modal -->
+    <div id="popupOverlay"
+        class="hidden fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
+        <div id="popupContent"
+            class="w-full max-w-md glass-strong rounded-3xl p-8 border border-white/20 shadow-2xl transform scale-95 opacity-0 transition-all duration-300">
+            <div id="popupIcon" class="w-20 h-20 mx-auto mb-6 rounded-2xl glass flex items-center justify-center">
+                <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                </svg>
             </div>
-
-           
-            <h5 class="text-white font-black uppercase text-md mb-1 group-hover:text-accent-blue">
-                    ${member.name}
-                </h5>
-
-                <p class="text-accent-blue group-hover:text-white text-sm font-black uppercase tracking-widest mb-4">
-                    ${member.role}
-                </p>
-
-                <!-- Social Icons -->
-                <div class="flex items-center gap-4">
-
-                    ${member.socials.linkedin ? `
-                    <a href="${member.socials.linkedin}" target="_blank"
-                    rel="noopener noreferrer"
-                    class="size-10 md:size-11 border-white/20 flex items-center justify-center
-                            text-white/70 hover:text-accent-blue hover:border-accent-blue transition-all">
-                        <!-- LinkedIn -->
-                        <svg class="w-5 h-5 md:w-6 md:h-6 fill-current" viewBox="0 0 24 24">
-                            <path d="M22.23 0H1.77C.79 0 0 .77 0 1.72v20.56C0 23.23.79 24 1.77 24h20.46c.98 0 1.77-.77 1.77-1.72V1.72C24 .77 23.21 0 22.23 0zM7.06 20.45H3.56V9h3.5v11.45zM5.31 7.43a2.03 2.03 0 1 1 0-4.06 2.03 2.03 0 0 1 0 4.06zM20.45 20.45h-3.5v-5.6c0-1.34-.03-3.07-1.87-3.07-1.88 0-2.17 1.46-2.17 2.97v5.7h-3.5V9h3.36v1.56h.05c.47-.89 1.6-1.82 3.3-1.82 3.53 0 4.18 2.32 4.18 5.34v6.37z"/>
-                        </svg>
-                    </a>` : ""}
-
-                    ${member.socials.github ? `
-                    <a href="${member.socials.github}" target="_blank"
-                    rel="noopener noreferrer"
-                    class="size-10 md:size-11  border-white/20 flex items-center justify-center
-                            text-white/70 hover:text-accent-blue hover:border-accent-blue transition-all">
-                        <!-- GitHub -->
-                        <svg class="w-5 h-5 md:w-6 md:h-6 fill-current" viewBox="0 0 24 24">
-                            <path d="M12 .3a12 12 0 0 0-3.79 23.4c.6.11.82-.26.82-.58v-2.17c-3.34.73-4.04-1.61-4.04-1.61-.55-1.4-1.34-1.77-1.34-1.77-1.1-.75.08-.74.08-.74 1.22.09 1.86 1.25 1.86 1.25 1.08 1.85 2.83 1.32 3.52 1 .11-.78.42-1.32.76-1.62-2.67-.31-5.47-1.34-5.47-5.95 0-1.31.47-2.38 1.24-3.22-.12-.31-.54-1.56.12-3.25 0 0 1.01-.32 3.3 1.23a11.5 11.5 0 0 1 6 0c2.29-1.55 3.3-1.23 3.3-1.23.66 1.69.24 2.94.12 3.25.77.84 1.23 1.91 1.23 3.22 0 4.62-2.81 5.63-5.49 5.93.43.37.81 1.1.81 2.22v3.29c0 .32.22.69.83.57A12 12 0 0 0 12 .3z"/>
-                        </svg>
-                    </a>` : ""}
-
-                    ${member.socials.instagram ? `
-                    <a href="${member.socials.instagram}" target="_blank"
-                    rel="noopener noreferrer"
-                    class="size-10 md:size-11  border-white/20 flex items-center justify-center
-                            text-white/70 hover:text-accent-blue hover:border-accent-blue transition-all">
-                        <!-- Instagram -->
-                        <svg class="w-5 h-5 md:w-6 md:h-6 fill-current" viewBox="0 0 24 24">
-                            <path d="M7 2C4.24 2 2 4.24 2 7v10c0 2.76 2.24 5 5 5h10c2.76 0 5-2.24 5-5V7c0-2.76-2.24-5-5-5H7zm10 2c1.65 0 3 1.35 3 3v10c0 1.65-1.35 3-3 3H7c-1.65 0-3-1.35-3-3V7c0-1.65 1.35-3 3-3h10zm-5 3.5A4.5 4.5 0 1 0 12 16a4.5 4.5 0 0 0 0-9zm0 7.5A3 3 0 1 1 12 9a3 3 0 0 1 0 6zm4.75-7.88a1.12 1.12 0 1 1-2.24 0 1.12 1.12 0 0 1 2.24 0z"/>
-                        </svg>
-                    </a>` : ""}
-
-                </div>
+            <h3 id="popupTitle" class="text-2xl font-display font-bold text-white text-center mb-3">Success</h3>
+            <p id="popupMessage" class="text-white/60 text-center mb-8">Your request has been sent successfully.</p>
+            <button onclick="closePopup()"
+                class="w-full py-4 rounded-xl bg-white text-black font-semibold hover:scale-[1.02] transition-transform">Close</button>
         </div>
-        `;
-            });
-        }
+    </div>
 
-        renderTeam();
-    </script>
-
-    <script>
-        const servicesData = {
-
-            "Web Development": [
-                {
-                    image: "https://images.unsplash.com/photo-1547658719-da2b51169166",
-                    title: "Frontend Development",
-                    desc: "Modern, responsive interfaces designed to be fast, clean, and easy to use.",
-                    points: [
-                        "Mobile-first responsive layouts",
-                        "Clean and accessible UI design",
-                        "Optimized performance and speed",
-                        "Cross-browser compatibility"
-                    ]
-                },
-                {
-                    image: "https://images.unsplash.com/photo-1555949963-aa79dcee981c",
-                    title: "Backend Development",
-                    desc: "Robust backend systems that manage data, security, and business logic.",
-                    points: [
-                        "Scalable server architecture",
-                        "Secure authentication systems",
-                        "Efficient database management",
-                        "API-driven backend services"
-                    ]
-                },
-                {
-                    image: "https://images.unsplash.com/photo-1518770660439-4636190af475",
-                    title: "API & Cloud Services",
-                    desc: "Cloud-ready APIs that connect platforms and services seamlessly.",
-                    points: [
-                        "REST & third-party API integration",
-                        "Cloud deployment & monitoring",
-                        "High availability infrastructure",
-                        "Scalable hosting solutions"
-                    ]
-                }
-            ],
-
-            "App Development": [
-                {
-                    image: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f",
-                    title: "Mobile App Design",
-                    desc: "User-focused mobile designs that feel intuitive and smooth.",
-                    points: [
-                        "Clear user flows",
-                        "Modern UI patterns",
-                        "Consistent design language",
-                        "Optimized for touch interaction"
-                    ]
-                },
-                {
-                    image: "https://images.unsplash.com/photo-1517430816045-df4b7de11d1d",
-                    title: "Cross-Platform Apps",
-                    desc: "Single codebase apps that run smoothly on Android and iOS.",
-                    points: [
-                        "Faster development cycles",
-                        "Lower maintenance cost",
-                        "Near-native performance",
-                        "Scalable app structure"
-                    ]
-                },
-                {
-                    image: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b",
-                    title: "Application Security",
-                    desc: "Security-first app development to protect users and data.",
-                    points: [
-                        "Encrypted data handling",
-                        "Secure authentication flows",
-                        "Protection against vulnerabilities",
-                        "Regular security testing"
-                    ]
-                }
-            ],
-
-            "WordPress": [
-                {
-                    image: "https://images.unsplash.com/photo-1498050108023-c5249f4df085",
-                    title: "Custom WordPress Websites",
-                    desc: "Tailored WordPress websites built for flexibility and speed.",
-                    points: [
-                        "Custom themes from scratch",
-                        "SEO-friendly structure",
-                        "Easy content management",
-                        "Scalable site architecture"
-                    ]
-                },
-                {
-                    image: "https://images.unsplash.com/photo-1515879218367-8466d910aaa4",
-                    title: "Plugin Development",
-                    desc: "Lightweight plugins designed for performance and stability.",
-                    points: [
-                        "Custom business logic",
-                        "Secure coding practices",
-                        "Clean WordPress integration",
-                        "Easy updates and maintenance"
-                    ]
-                },
-                {
-                    image: "https://images.unsplash.com/photo-1527430253228-e93688616381",
-                    title: "Performance Optimization",
-                    desc: "Improving speed, SEO, and reliability of WordPress sites.",
-                    points: [
-                        "Core Web Vitals improvement",
-                        "Caching and CDN setup",
-                        "Database optimization",
-                        "Security hardening"
-                    ]
-                }
-            ],
-
-            "AI Agents": [
-                {
-                    image: "https://images.unsplash.com/photo-1677442136019-21780ecad995",
-                    title: "Automation Agents",
-                    desc: "AI agents that automate repetitive business tasks.",
-                    points: [
-                        "Workflow automation",
-                        "System integrations",
-                        "Reduced manual effort",
-                        "Consistent execution"
-                    ]
-                },
-                {
-                    image: "https://images.unsplash.com/photo-1504384308090-c894fdcc538d",
-                    title: "Decision Support Systems",
-                    desc: "AI systems that analyze data to support smarter decisions.",
-                    points: [
-                        "Real-time analytics",
-                        "Predictive insights",
-                        "Custom decision logic",
-                        "Dashboard integration"
-                    ]
-                },
-                {
-                    image: "https://images.unsplash.com/photo-1534759846116-5799c33ce22a",
-                    title: "Learning AI Models",
-                    desc: "AI models that improve automatically with usage.",
-                    points: [
-                        "Model training pipelines",
-                        "Continuous learning",
-                        "Data monitoring",
-                        "Scalable AI infrastructure"
-                    ]
-                }
-            ],
-
-            "Shopify": [
-                {
-                    image: "https://images.unsplash.com/photo-1547658719-da2b51169166",
-                    title: "Shopify Store Development",
-                    desc: "Professional Shopify stores built to convert visitors into customers.",
-                    points: [
-                        "Custom storefront design",
-                        "Mobile-first shopping experience",
-                        "Secure checkout setup",
-                        "Product management"
-                    ]
-                },
-                {
-                    image: "https://images.unsplash.com/photo-1556740749-887f6717d7e4",
-                    title: "App & Payment Integration",
-                    desc: "Seamless integration with apps and payment gateways.",
-                    points: [
-                        "Payment gateway setup",
-                        "Third-party app integration",
-                        "Custom Shopify apps",
-                        "Automation workflows"
-                    ]
-                },
-                {
-                    image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f",
-                    title: "Store Optimization",
-                    desc: "Optimizing Shopify stores for speed and conversion.",
-                    points: [
-                        "Performance improvements",
-                        "UX enhancements",
-                        "Analytics setup",
-                        "Conversion tracking"
-                    ]
-                }
-            ],
-
-            "CRM": [
-                {
-                    image: "https://images.unsplash.com/photo-1556155092-490a1ba16284",
-                    title: "Custom CRM Systems",
-                    desc: "CRM platforms designed around your business workflow.",
-                    points: [
-                        "Lead and customer tracking",
-                        "Role-based access control",
-                        "Custom workflows",
-                        "Tool integrations"
-                    ]
-                },
-                {
-                    image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71",
-                    title: "Workflow Automation",
-                    desc: "Automated processes that reduce manual work.",
-                    points: [
-                        "Sales automation",
-                        "Support workflows",
-                        "Trigger-based actions",
-                        "Efficiency improvements"
-                    ]
-                },
-                {
-                    image: "https://images.unsplash.com/photo-1556761175-5973dc0f32e7",
-                    title: "Reports & Analytics",
-                    desc: "Clear insights to support data-driven decisions.",
-                    points: [
-                        "Custom dashboards",
-                        "Performance metrics",
-                        "User activity tracking",
-                        "Actionable reports"
-                    ]
-                }
-            ],
-
-            "System Designs": [
-                {
-                    image: "https://images.unsplash.com/photo-1518770660439-4636190af475",
-                    title: "System Architecture",
-                    desc: "Scalable and stable system foundations for complex applications.",
-                    points: [
-                        "High availability design",
-                        "Load balancing strategies",
-                        "Modular system structure",
-                        "Technology planning"
-                    ]
-                },
-                {
-                    image: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31",
-                    title: "Service Orchestration",
-                    desc: "Managing communication across services and platforms.",
-                    points: [
-                        "Microservices coordination",
-                        "Workflow orchestration",
-                        "Monitoring and logging",
-                        "Failure handling"
-                    ]
-                },
-                {
-                    image: "https://images.unsplash.com/photo-1563986768609-322da13575f3",
-                    title: "Security & Reliability",
-                    desc: "Secure and fault-tolerant system designs.",
-                    points: [
-                        "Data encryption",
-                        "Backup and recovery",
-                        "Access control",
-                        "System monitoring"
-                    ]
-                }
-            ]
-        };
-    </script>
-
-    <script>
-        const projectsData = [
-            {
-                image: "/assets/project/larsa.png",
-                sector: "Shopify",
-                status: "Active",
-                title: "Larsa Organics",
-                desc: "A modern Shopify store built to showcase organic products with a smooth shopping experience and clean design.",
-                link: "https://laarsaorganic.com/"
-            },
-            {
-                image: "/assets/project/gsecurity.png",
-                sector: "Web Development",
-                status: "Active",
-                title: "G Security & Training",
-                desc: "A professional business website designed to present security services clearly and build trust with clients.",
-                link: "https://gsecurityandtraining.co.uk/"
-            },
-            {
-                image: "/assets/project/aushmika.png",
-                sector: "Shopify",
-                status: "Active",
-                title: "Aushmika Jewellers",
-                desc: "A premium Shopify store crafted to showcase jewellery collections with an elegant design, smooth browsing experience, and secure online purchasing.",
-                link: "https://www.aushmikajewels.com/"
-            },
-            {
-                image: "/assets/project/annpurna.png",
-                sector: "WordPress",
-                status: "Active",
-                title: "Annapurna Regency",
-                desc: "A hospitality website designed to present hotel services, room details, and booking information in a clean and user-friendly layout.",
-                link: "https://hotelannpurnaregency.in/"
-            },
-            {
-                image: "/assets/project/ddassociate.png",
-                sector: "Web Development",
-                status: "Active",
-                title: "DD Associates",
-                desc: "A professional business website developed to highlight services, company values, and build trust through a structured and modern interface.",
-                link: "https://ddassociate.in/"
-            },
-            {
-                image: "/assets/project/tekdat.png",
-                sector: "System Design & Development",
-                status: "Active",
-                title: "TekDat Solutions",
-                desc: "A system-focused website created to present technology solutions, product offerings, and enterprise capabilities with clarity and precision.",
-                link: "https://systracker.infinityfree.me/"
-            },
-            {
-                image: "/assets/project/urbenstate.png",
-                sector: "Web Development",
-                status: "Active",
-                title: "Urban State Capital",
-                desc: "A corporate website created to highlight financial services, company vision, and investor-focused information.",
-                link: "https://www.urbanshiftcapitalpvtltd.com/"
-            },
-
-        ];
-    </script>
-
-    <script>
-        const counters = document.querySelectorAll(".stat-number");
-        let statsStarted = false;
-
-        function animateCounter(counter) {
-            const target = parseFloat(counter.dataset.target);
-            const suffix = counter.dataset.suffix || "";
-            const duration = 1500; // ms
-            const startTime = performance.now();
-
-            function update(currentTime) {
-                const elapsed = currentTime - startTime;
-                const progress = Math.min(elapsed / duration, 1);
-                const value = (progress * target).toFixed(target % 1 === 0 ? 0 : 1);
-
-                counter.textContent = value + suffix;
-
-                if (progress < 1) {
-                    requestAnimationFrame(update);
-                }
-            }
-
-            requestAnimationFrame(update);
-        }
-
-        const observer = new IntersectionObserver(entries => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting && !statsStarted) {
-                    statsStarted = true;
-                    counters.forEach(counter => animateCounter(counter));
-                    observer.disconnect();
-                }
-            });
-        }, { threshold: 0.4 });
-
-        observer.observe(document.getElementById("stats"));
-    </script>
-
-
-    <script>
-        const projectsTrack = document.getElementById("projectsTrack");
-        const prevBtn = document.getElementById("projectPrev");
-        const nextBtn = document.getElementById("projectNext");
-
-        function renderProjects() {
-            projectsTrack.innerHTML = "";
-
-            projectsData.forEach(project => {
-                projectsTrack.innerHTML += `
-        <a href="${project.link}" target="_blank" class="no-underline">
-            <div class="min-w-[450px] aspect-[16/10] relative snap-start group border border-white/5">
-
-            <img src="${project.image}" alt="${project.title}"
-                class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700">
-
-            <div class="absolute inset-0 bg-background-dark/80 opacity-60 group-hover:opacity-40 transition-opacity"></div>
-
-            <div class="absolute inset-0 p-8 flex flex-col justify-end bg-gradient-to-t from-background-dark to-transparent">
-
-                <div class="flex gap-3 mb-4">
-                    <span class="text-[9px] font-black uppercase tracking-[0.2em] px-3 py-1 bg-primary text-white">
-                        ${project.sector}
-                    </span>
-                    <span class="text-[9px] font-black uppercase tracking-[0.2em] px-3 py-1 bg-white/10 text-white">
-                        ${project.status}
-                    </span>
-                </div>
-
-                <h4 class="text-white text-2xl font-black uppercase mb-2 group-hover:text-accent-blue transition-colors">
-                    ${project.title}
-                </h4>
-
-                <p class="text-slate-400 text-[10px] font-bold uppercase tracking-widest">
-                    ${project.desc}
-                </p>
-
-            </div>
+    <!-- Cursor -->
+    <div id="cursor" class="fixed pointer-events-none z-[9999] hidden md:block mix-blend-difference">
+        <div class="cursor-dot w-3 h-3 bg-white rounded-full -translate-x-1/2 -translate-y-1/2"></div>
+        <div
+            class="cursor-ring fixed w-10 h-10 border-2 border-white rounded-full -translate-x-1/2 -translate-y-1/2 transition-all duration-300">
         </div>
-        </a>
-        `;
-            });
-        }
+    </div>
 
-        /* Controls */
-        const scrollAmount = 480;
-
-        prevBtn.addEventListener("click", () => {
-            projectsTrack.scrollBy({ left: -scrollAmount, behavior: "smooth" });
-        });
-
-        nextBtn.addEventListener("click", () => {
-            projectsTrack.scrollBy({ left: scrollAmount, behavior: "smooth" });
-        });
-
-        /* Init */
-        renderProjects();
-    </script>
-
-    <script>
-        const dropdownBtn = document.getElementById("dropdownBtn");
-        const dropdownMenu = document.getElementById("dropdownMenu");
-        const selectedService = document.getElementById("selectedService");
-        const serviceInput = document.getElementById("serviceInput");
-
-        dropdownBtn.addEventListener("click", (e) => {
-            e.preventDefault();
-            dropdownMenu.classList.toggle("hidden");
-        });
-
-        dropdownMenu.querySelectorAll(".dropdown-item").forEach(item => {
-            item.addEventListener("click", () => {
-                selectedService.textContent = item.textContent;
-                selectedService.classList.remove("text-slate-400");
-                selectedService.classList.add("text-white");
-
-                // store value for backend
-                serviceInput.value = item.textContent;
-
-                dropdownMenu.classList.add("hidden");
-            });
-        });
-
-        // close on outside click
-        document.addEventListener("click", (e) => {
-            if (!dropdownBtn.contains(e.target) && !dropdownMenu.contains(e.target)) {
-                dropdownMenu.classList.add("hidden");
-            }
-        });
-    </script>
-
-
-
-    <script>
-        const cardsContainer = document.getElementById("serviceCards");
-        const tabs = document.querySelectorAll(".service-tab");
-
-        function renderCards(service) {
-            cardsContainer.innerHTML = "";
-
-            servicesData[service].forEach(item => {
-                cardsContainer.innerHTML += `
-        <div class="bg-[#0b0f19] border border-white/5 overflow-hidden 
-                    hover:border-primary/40 transition-all">
-
-            <!-- Image -->
-            <div class="h-44 md:h-48 w-full overflow-hidden">
-                <img src="${item.image}" 
-                     alt="${item.title}" 
-                     class="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-500">
-            </div>
-
-            <!-- Content -->
-            <div class="p-6 md:p-8">
-                <h3 class="text-white text-lg md:text-xl font-black uppercase tracking-wide mb-3">
-                    ${item.title}
-                </h3>
-
-                <p class="text-slate-400 text-sm leading-relaxed mb-5">
-                    ${item.desc}
-                </p>
-
-                <ul class="space-y-3 text-slate-300 text-sm">
-                    ${item.points.map(point => `
-                        <li class="flex items-start gap-3">
-                            <span class="w-1.5 h-1.5 bg-primary rounded-full mt-2"></span>
-                            <span>${point}</span>
-                        </li>
-                    `).join("")}
-                </ul>
-            </div>
-        </div>
-        `;
-            });
-        }
-
-
-        tabs.forEach(tab => {
-            tab.addEventListener("click", () => {
-                tabs.forEach(t => t.classList.remove("active-tab"));
-                tab.classList.add("active-tab");
-                renderCards(tab.dataset.service);
-            });
-        });
-
-        // Default load
-        renderCards("Web Development");
-    </script>
-
-    <script>
-        function showPopup(type, title, message) {
-            const overlay = document.getElementById("popupOverlay");
-            const icon = document.getElementById("popupIcon");
-            const iconSpan = icon.querySelector("span");
-            const popupTitle = document.getElementById("popupTitle");
-            const popupMessage = document.getElementById("popupMessage");
-
-            // Reset styles
-            icon.className = "w-14 h-14 mx-auto mb-4 flex items-center justify-center rounded-full border transition-all";
-
-            if (type === "success") {
-                icon.classList.add("border-accent-blue");
-                iconSpan.textContent = "check_circle";
-                iconSpan.className = "material-symbols-outlined text-3xl text-accent-blue";
-            } else {
-                icon.classList.add("border-red-500");
-                iconSpan.textContent = "error";
-                iconSpan.className = "material-symbols-outlined text-3xl text-red-500";
-            }
-
-            popupTitle.textContent = title;
-            popupMessage.textContent = message;
-
-            overlay.classList.remove("hidden");
-            overlay.classList.add("flex");
-        }
-
-        function closePopup() {
-            const overlay = document.getElementById("popupOverlay");
-            overlay.classList.add("hidden");
-            overlay.classList.remove("flex");
-        }
-    </script>
-
-
-    <script>
-        const form = document.getElementById("contactForm");
-
-        form.addEventListener("submit", async function (e) {
-            e.preventDefault();
-
-            const name = this.querySelector('input[type="text"]').value.trim();
-            const phone = this.querySelector('input[type="tel"]').value.trim();
-            const email = this.querySelector('input[type="email"]').value.trim();
-            const service = document.getElementById("serviceInput").value.trim();
-            const message = this.querySelector("textarea").value.trim();
-
-            // 🔒 Basic validation
-            if (!name || !phone || !email || !service || !message) {
-                alert("⚠️ Please fill all fields");
-                return;
-            }
-
-            const submitBtn = this.querySelector("button[type='submit']");
-            submitBtn.disabled = true;
-            submitBtn.textContent = "Sending...";
-
-            try {
-                const response = await fetch("https://backend-coral-eight-82.vercel.app/send-email", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify({
-                        name,
-                        phone,
-                        email,
-                        service,
-                        message
-                    })
-                });
-
-                const result = await response.json();
-
-                if (response.ok && result.success) {
-                    showPopup(
-                        "success",
-                        "Request Sent",
-                        "Your service request has been successfully transmitted. Our team will contact you shortly."
-                    );
-
-                    this.reset();
-                    document.getElementById("selectedService").textContent = "Select a service";
-                    document.getElementById("selectedService").classList.add("text-slate-400");
-                    document.getElementById("serviceInput").value = "";
-                } else {
-                    showPopup(
-                        "error",
-                        "Request Failed",
-                        "Something went wrong while sending your request. Please try again."
-                    );
-                }
-
-            } catch (error) {
-                console.error(error);
-                showPopup(
-                    "error",
-                    "Server Unreachable",
-                    "Our server is currently not reachable. Please try again later."
-                );
-            } finally {
-                submitBtn.disabled = false;
-                submitBtn.textContent = "Send Request";
-            }
-        });
-    </script>
-
-<script>
-    const openBtn = document.getElementById("openTerminal");
-    const openBtnMobile = document.getElementById("openTerminalMobile");
-    const closeBtn = document.getElementById("closeTerminal");
-    const overlay = document.getElementById("terminalOverlay");
-    const input = document.getElementById("terminalInput");
-    const body = document.getElementById("terminalBody");
-    const menuToggle = document.getElementById("menu-toggle"); // mobile checkbox
-
-    /* ==========================
-       OPEN / CLOSE TERMINAL
-    ========================== */
-    function openTerminal() {
-        overlay.classList.remove("hidden");
-        overlay.classList.add("flex");
-        document.body.style.overflow = "hidden";
-
-        if (menuToggle) menuToggle.checked = false;
-        setTimeout(() => input.focus(), 150);
-    }
-
-    function closeTerminal() {
-        overlay.classList.add("hidden");
-        overlay.classList.remove("flex");
-        document.body.style.overflow = "";
-    }
-
-    openBtn?.addEventListener("click", openTerminal);
-    openBtnMobile?.addEventListener("click", openTerminal);
-    closeBtn?.addEventListener("click", closeTerminal);
-
-    document.addEventListener("keydown", (e) => {
-        if (e.key === "Escape" && !overlay.classList.contains("hidden")) {
-            closeTerminal();
-        }
-    });
-
-    /* ==========================
-       TERMINAL INPUT HANDLER
-    ========================== */
-    input.addEventListener("keydown", async (e) => {
-        if (e.key === "Enter" && input.value.trim() !== "") {
-            const command = input.value.trim();
-            appendLine(`$ ${command}`, "text-green-400");
-            input.value = "";
-
-            const localReply = handleLocalCommand(command);
-
-            if (localReply !== null) {
-                if (localReply !== "") {
-                    setTimeout(() => {
-                        appendLine(localReply, "text-slate-300");
-                    }, 300);
-                }
-                return;
-            }
-
-            // AI response
-            appendLine("thinking...", "text-slate-500");
-
-            try {
-                const aiReply = await aiResponse(command);
-                removeLastLine(); // remove "thinking..."
-                appendLine(aiReply, "text-slate-300");
-            } catch (err) {
-                removeLastLine();
-                appendLine("AI service not reachable.", "text-red-400");
-            }
-        }
-    });
-
-    /* ==========================
-       LOCAL COMMANDS
-    ========================== */
-    function handleLocalCommand(cmd) {
-        cmd = cmd.toLowerCase();
-
-        if (cmd === "help")
-            return "Commands: help, services, projects, contact, about, clear";
-
-        if (cmd === "services")
-            return "Web • App • AI Agents • Shopify • WordPress • CRM • System Design";
-
-        if (cmd === "projects")
-            return "Visit the Deployments section to see live projects.";
-
-        if (cmd === "contact")
-            return "Email: desilentorder@gmail.com";
-
-        if (cmd === "about")
-            return "De Silent Order — Build in Silence.";
-
-        if (cmd === "clear") {
-            body.innerHTML = "";
-            return "";
-        }
-
-        return null; // not a local command → AI
-    }
-
-    /* ==========================
-       GEMINI AI CALL
-    ========================== */
-    async function aiResponse(prompt) {
-        const res = await fetch("https://backend-coral-eight-82.vercel.app/ask-gemini", {
-        // const res = await fetch("http://192.168.1.5:5000/ask-gemini", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ prompt })
-        });
-
-        const data = await res.json();
-        return data.reply || "No response from AI.";
-    }
-
-    /* ==========================
-       UI HELPERS
-    ========================== */
-    function appendLine(text, className) {
-        const div = document.createElement("div");
-        div.className = className;
-        div.textContent = text;
-        body.appendChild(div);
-        body.scrollTop = body.scrollHeight;
-    }
-
-    function removeLastLine() {
-        if (body.lastChild) body.removeChild(body.lastChild);
-    }
-</script>
-
+    <script src="main.js"></script>
 </body>
 
 </html>
