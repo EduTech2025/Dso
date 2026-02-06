@@ -1066,3 +1066,413 @@ function typeCode() {
 
 // Start
 setTimeout(typeCode, 500);
+
+
+// home page video popup 
+
+// First Visit Video Popup Logic
+const VIDEO_SHOWN_KEY = 'deSilentOrderVideoShown';
+const SESSION_KEY = 'deSilentOrderSession';
+
+function showVideoPopup() {
+    const videoPopup = document.getElementById('videoPopup');
+    const videoPopupContent = document.getElementById('videoPopupContent');
+    const video = document.getElementById('introVideo');
+    
+    videoPopup.classList.remove('hidden');
+    videoPopup.classList.add('flex');
+    
+    // Animate in
+    setTimeout(() => {
+        videoPopupContent.classList.remove('scale-95', 'opacity-0');
+        videoPopupContent.classList.add('scale-100', 'opacity-100');
+        video.play().catch(e => console.log('Autoplay prevented:', e));
+    }, 100);
+}
+
+function closeVideoPopup() {
+    const videoPopup = document.getElementById('videoPopup');
+    const videoPopupContent = document.getElementById('videoPopupContent');
+    const video = document.getElementById('introVideo');
+    
+    video.pause();
+    
+    videoPopupContent.classList.remove('scale-100', 'opacity-100');
+    videoPopupContent.classList.add('scale-95', 'opacity-0');
+    
+    setTimeout(() => {
+        videoPopup.classList.add('hidden');
+        videoPopup.classList.remove('flex');
+    }, 300);
+}
+
+function checkAndShowVideo() {
+    const currentSession = sessionStorage.getItem(SESSION_KEY);
+    const videoShownInSession = sessionStorage.getItem(VIDEO_SHOWN_KEY);
+    
+    // Check if this is a new session (user closed tab and came back)
+    const isNewSession = !currentSession;
+    
+    if (isNewSession && !videoShownInSession) {
+        // New session, show video
+        setTimeout(showVideoPopup, 1000); // 1 second delay after page load
+        sessionStorage.setItem(SESSION_KEY, 'active');
+        sessionStorage.setItem(VIDEO_SHOWN_KEY, 'true');
+    } else if (!currentSession) {
+        // Returning user but same session storage persists (rare case)
+        sessionStorage.setItem(SESSION_KEY, 'active');
+    }
+}
+
+// Initialize video popup check
+document.addEventListener('DOMContentLoaded', checkAndShowVideo);
+
+// Close on backdrop click
+document.getElementById('videoPopup')?.addEventListener('click', (e) => {
+    if (e.target.id === 'videoPopup') {
+        closeVideoPopup();
+    }
+});
+
+// Close on video end
+document.getElementById('introVideo')?.addEventListener('ended', closeVideoPopup);
+
+// Close on Escape key
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+        const videoPopup = document.getElementById('videoPopup');
+        if (!videoPopup?.classList.contains('hidden')) {
+            closeVideoPopup();
+        }
+    }
+});
+
+
+
+// Video Section 
+// Video Analytics Section Logic - Responsive Version
+let growthChart;
+let isVideoPlaying = false;
+let isMuted = false;
+
+function initVideoAnalytics() {
+    initCounters();
+    initGrowthChart();
+    setupVideoControls();
+}
+
+function setupVideoControls() {
+    const video = document.getElementById('analyticsVideo');
+    const overlay = document.getElementById('playOverlay');
+    
+    if (!video || !overlay) return;
+    
+    // Handle native controls interaction
+    video.addEventListener('play', () => {
+        isVideoPlaying = true;
+        overlay.classList.add('opacity-0', 'pointer-events-none');
+        updatePlayButton();
+    });
+    
+    video.addEventListener('pause', () => {
+        isVideoPlaying = false;
+        overlay.classList.remove('opacity-0', 'pointer-events-none');
+        updatePlayButton();
+    });
+    
+    // Mobile touch optimization
+    video.addEventListener('click', (e) => {
+        if (window.innerWidth < 768) {
+            e.preventDefault();
+            toggleVideo();
+        }
+    });
+}
+
+function updatePlayButton() {
+    const overlay = document.getElementById('playOverlay');
+    const btn = overlay.querySelector('svg');
+    if (isVideoPlaying) {
+        btn.innerHTML = '<rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/>';
+    } else {
+        btn.innerHTML = '<path d="M8 5v14l11-7z"/>';
+    }
+}
+
+function toggleVideo() {
+    const video = document.getElementById('analyticsVideo');
+    if (!video) return;
+    
+    if (isVideoPlaying) {
+        video.pause();
+    } else {
+        // Try autoplay with sound first, fallback to muted
+        const playPromise = video.play();
+        if (playPromise !== undefined) {
+            playPromise.catch(() => {
+                video.muted = true;
+                isMuted = true;
+                updateVolumeIcon();
+                video.play();
+            });
+        }
+    }
+}
+
+function toggleMute() {
+    const video = document.getElementById('analyticsVideo');
+    if (!video) return;
+    
+    isMuted = !isMuted;
+    video.muted = isMuted;
+    updateVolumeIcon();
+}
+
+function updateVolumeIcon() {
+    const icon = document.getElementById('volumeIcon');
+    if (!icon) return;
+    
+    if (isMuted) {
+        icon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2"/>';
+    } else {
+        icon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"/>';
+    }
+}
+
+function toggleFullscreen() {
+    const video = document.getElementById('analyticsVideo');
+    if (!video) return;
+    
+    if (video.requestFullscreen) {
+        video.requestFullscreen();
+    } else if (video.webkitRequestFullscreen) {
+        video.webkitRequestFullscreen();
+    } else if (video.msRequestFullscreen) {
+        video.msRequestFullscreen();
+    }
+}
+
+// Animated Counters
+function initCounters() {
+    const counters = [
+        { id: 'clientCounter', target: 47, suffix: '', duration: 2000 },
+        { id: 'engagementCounter', target: 94, suffix: '%', duration: 2500 },
+        { id: 'deliveryCounter', target: 156, suffix: '', duration: 2200 },
+        { id: 'satisfactionCounter', target: 4.9, suffix: '', duration: 2000, decimals: 1 }
+    ];
+
+    const observerOptions = {
+        threshold: 0.3,
+        rootMargin: '0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                counters.forEach(counter => animateCounter(counter));
+                observer.unobserve(entry.target);
+            }
+        });
+    }, observerOptions);
+
+    const section = document.getElementById('videoAnalytics');
+    if (section) observer.observe(section);
+}
+
+function animateCounter({ id, target, suffix, duration, decimals = 0 }) {
+    const element = document.getElementById(id);
+    if (!element) return;
+    
+    let start = 0;
+    const startTime = performance.now();
+    
+    function update(currentTime) {
+        const elapsed = currentTime - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+        
+        // Easing function for smooth animation
+        const easeOutQuart = 1 - Math.pow(1 - progress, 4);
+        const current = start + (target - start) * easeOutQuart;
+        
+        element.textContent = (decimals > 0 ? current.toFixed(decimals) : Math.floor(current)) + suffix;
+        
+        if (progress < 1) {
+            requestAnimationFrame(update);
+        } else {
+            element.textContent = target + suffix;
+        }
+    }
+    
+    requestAnimationFrame(update);
+}
+
+// Growth Chart with Responsive Options
+function initGrowthChart() {
+    const ctx = document.getElementById('growthChart');
+    if (!ctx) return;
+
+    const isMobile = window.innerWidth < 768;
+    const textColor = 'rgba(255, 255, 255, 0.6)';
+    const gridColor = 'rgba(255, 255, 255, 0.05)';
+
+    const chartConfig = {
+        type: 'line',
+        data: {
+            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+            datasets: [
+                {
+                    label: 'New Clients',
+                    data: [12, 19, 15, 25, 22, 30, 35, 42, 38, 45, 52, 47],
+                    borderColor: 'rgba(52, 211, 153, 0.8)',
+                    backgroundColor: 'rgba(52, 211, 153, 0.1)',
+                    borderWidth: isMobile ? 1.5 : 2,
+                    tension: 0.4,
+                    fill: true,
+                    pointBackgroundColor: 'rgba(52, 211, 153, 1)',
+                    pointBorderColor: 'rgba(0, 0, 0, 0.8)',
+                    pointBorderWidth: 2,
+                    pointRadius: isMobile ? 2 : 4,
+                    pointHoverRadius: isMobile ? 4 : 6
+                },
+                {
+                    label: 'Retention',
+                    data: [8, 12, 18, 20, 24, 28, 32, 36, 40, 44, 48, 50],
+                    borderColor: 'rgba(96, 165, 250, 0.8)',
+                    backgroundColor: 'rgba(96, 165, 250, 0.1)',
+                    borderWidth: isMobile ? 1.5 : 2,
+                    tension: 0.4,
+                    fill: true,
+                    pointBackgroundColor: 'rgba(96, 165, 250, 1)',
+                    pointBorderColor: 'rgba(0, 0, 0, 0.8)',
+                    pointBorderWidth: 2,
+                    pointRadius: isMobile ? 2 : 3,
+                    pointHoverRadius: isMobile ? 4 : 5
+                },
+                {
+                    label: 'Referrals',
+                    data: [5, 8, 12, 15, 18, 22, 26, 30, 28, 35, 40, 38],
+                    borderColor: 'rgba(192, 132, 252, 0.8)',
+                    backgroundColor: 'rgba(192, 132, 252, 0.1)',
+                    borderWidth: isMobile ? 1.5 : 2,
+                    tension: 0.4,
+                    fill: true,
+                    pointBackgroundColor: 'rgba(192, 132, 252, 1)',
+                    pointBorderColor: 'rgba(0, 0, 0, 0.8)',
+                    pointBorderWidth: 2,
+                    pointRadius: isMobile ? 2 : 3,
+                    pointHoverRadius: isMobile ? 4 : 5
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            interaction: {
+                mode: 'index',
+                intersect: false
+            },
+            plugins: {
+                legend: {
+                    display: false
+                },
+                tooltip: {
+                    backgroundColor: 'rgba(0, 0, 0, 0.9)',
+                    titleColor: 'rgba(255, 255, 255, 0.9)',
+                    bodyColor: 'rgba(255, 255, 255, 0.7)',
+                    borderColor: 'rgba(255, 255, 255, 0.1)',
+                    borderWidth: 1,
+                    padding: isMobile ? 8 : 12,
+                    displayColors: true,
+                    usePointStyle: true,
+                    titleFont: {
+                        size: isMobile ? 11 : 13,
+                        family: "'Space Grotesk', sans-serif"
+                    },
+                    bodyFont: {
+                        size: isMobile ? 10 : 12,
+                        family: "'Space Grotesk', sans-serif"
+                    },
+                    callbacks: {
+                        label: function(context) {
+                            return context.dataset.label + ': ' + context.parsed.y + ' clients';
+                        }
+                    }
+                }
+            },
+            scales: {
+                x: {
+                    grid: {
+                        color: gridColor,
+                        drawBorder: false,
+                        tickLength: 0
+                    },
+                    ticks: {
+                        color: textColor,
+                        font: {
+                            size: isMobile ? 9 : 11,
+                            family: "'Space Grotesk', sans-serif"
+                        },
+                        maxRotation: 0,
+                        autoSkip: true,
+                        maxTicksLimit: isMobile ? 6 : 12
+                    }
+                },
+                y: {
+                    grid: {
+                        color: gridColor,
+                        drawBorder: false
+                    },
+                    ticks: {
+                        color: textColor,
+                        font: {
+                            size: isMobile ? 9 : 11,
+                            family: "'Space Grotesk', sans-serif"
+                        },
+                        padding: isMobile ? 4 : 8,
+                        callback: function(value) {
+                            return value;
+                        }
+                    },
+                    beginAtZero: true
+                }
+            },
+            animation: {
+                duration: 2000,
+                easing: 'easeOutQuart'
+            }
+        }
+    };
+
+    growthChart = new Chart(ctx, chartConfig);
+
+    // Handle resize
+    window.addEventListener('resize', () => {
+        const newIsMobile = window.innerWidth < 768;
+        if (growthChart) {
+            growthChart.options.scales.x.ticks.font.size = newIsMobile ? 9 : 11;
+            growthChart.options.scales.y.ticks.font.size = newIsMobile ? 9 : 11;
+            growthChart.options.scales.x.ticks.maxTicksLimit = newIsMobile ? 6 : 12;
+            growthChart.data.datasets.forEach(dataset => {
+                dataset.borderWidth = newIsMobile ? 1.5 : 2;
+                dataset.pointRadius = newIsMobile ? 2 : (dataset.label === 'New Clients' ? 4 : 3);
+                dataset.pointHoverRadius = newIsMobile ? 4 : (dataset.label === 'New Clients' ? 6 : 5);
+            });
+            growthChart.update('none');
+        }
+    });
+
+    // Animate chart on scroll
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                growthChart.update();
+                observer.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.2 });
+
+    observer.observe(ctx);
+}
+
+// Initialize when DOM loads
+document.addEventListener('DOMContentLoaded', initVideoAnalytics);
