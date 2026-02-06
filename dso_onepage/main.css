@@ -274,3 +274,61 @@ button, .glass, .glass-strong {
                 0 0 30px rgba(255, 255, 255, 0.5),
                 inset 0 0 20px rgba(148, 163, 184, 0.15);
 }
+
+
+/* project models */
+
+/* Custom scrollbar for modal */
+#modalProjectsGrid::-webkit-scrollbar {
+    width: 8px;
+}
+
+#modalProjectsGrid::-webkit-scrollbar-track {
+    background: rgba(30, 41, 59, 0.5);
+    border-radius: 4px;
+}
+
+#modalProjectsGrid::-webkit-scrollbar-thumb {
+    background: rgba(71, 85, 105, 0.8);
+    border-radius: 4px;
+}
+
+#modalProjectsGrid::-webkit-scrollbar-thumb:hover {
+    background: rgba(99, 102, 241, 0.6);
+}
+
+/* Line clamp utilities */
+.line-clamp-1 {
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+
+/* Terminal scrollbar */
+pre::-webkit-scrollbar {
+    width: 4px;
+}
+pre::-webkit-scrollbar-thumb {
+    background: #3e3e3e;
+    border-radius: 2px;
+}
+
+ /* Cursor blink animation */
+@keyframes blink {
+    0%, 50% { opacity: 1; }
+    51%, 100% { opacity: 0; }
+}
+
+/* Prevent text selection */
+pre {
+    user-select: none;
+}
