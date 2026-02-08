@@ -357,46 +357,74 @@ const projectsData = [
 // ==========================================
 function renderTeam() {
     const grid = document.getElementById('teamGrid');
-    
+
     grid.innerHTML = teamData.map((member) => `
-        <div class="group relative rounded-lg md:rounded-xl overflow-hidden bg-slate-800/40 border border-white/10 hover:border-primary/30 transition-all duration-300">
-            
-            <!-- Compact Image -->
-            <div class="relative aspect-square overflow-hidden">
-                <img src="${member.image}" 
-                     alt="${member.name}" 
-                     class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500" />
-                
-                <!-- Gradient Overlay -->
-                <div class="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/40 to-transparent opacity-90"></div>
-                
-                <!-- Role Badge - Always visible, compact -->
-                <div class="absolute top-2 right-2 px-1.5 py-0.5 rounded bg-primary/20 backdrop-blur-sm border border-primary/30 text-primary text-[9px] font-semibold">
-                    ${member.role.split(' ')[0]}
+        <div class="group relative rounded-2xl overflow-hidden 
+                    bg-gradient-to-b from-slate-800/60 to-slate-900/80
+                    border border-white/10
+                    hover:border-primary/40
+                    transition-all duration-500
+                    hover:-translate-y-2 hover:shadow-2xl hover:shadow-primary/20">
+
+            <!-- Image Wrapper -->
+            <div class="relative aspect-[4/5] overflow-hidden">
+                <img 
+                    src="${member.image}" 
+                    alt="${member.name}"
+                    class="w-full h-full object-cover 
+                           grayscale group-hover:grayscale-0
+                           scale-100 group-hover:scale-110
+                           transition-all duration-700 ease-out" />
+
+                <!-- Soft Overlay -->
+                <div class="absolute inset-0 bg-gradient-to-t 
+                            from-slate-900 via-slate-900/30 to-transparent"></div>
+
+                <!-- Floating Role Badge -->
+                <div class="absolute top-3 left-3 
+                            px-2 py-1 rounded-full
+                            bg-primary/20 backdrop-blur-md
+                            border border-primary/30
+                            text-primary text-[10px] font-semibold uppercase tracking-wider">
+                    ${member.role}
                 </div>
             </div>
 
-            <!-- Compact Content Overlay -->
-            <div class="absolute bottom-0 left-0 right-0 p-2 md:p-3">
-                <div class="bg-slate-900/90 backdrop-blur-sm rounded-md p-2 border border-white/5">
-                    
+            <!-- Content -->
+            <div class="relative p-4 md:p-5">
+                <div class="space-y-2">
+
                     <!-- Name -->
-                    <h3 class="text-xs md:text-sm font-bold text-white leading-tight truncate group-hover:text-primary transition-colors">${member.name}</h3>
-                    
+                    <h3 class="text-sm md:text-base font-bold text-white
+                               group-hover:text-primary transition-colors">
+                        ${member.name}
+                    </h3>
+
                     <!-- Role -->
-                    <p class="text-[9px] md:text-[10px] text-slate-400 font-medium tracking-wide uppercase truncate mb-1.5">${member.role}</p>
-                    
-                    <!-- Social Links - Compact -->
-                    <div class="flex gap-2">
+                    <p class="text-[10px] md:text-xs text-slate-400 uppercase tracking-widest">
+                        ${member.role}
+                    </p>
+
+                    <!-- Divider -->
+                    <div class="w-10 h-[1px] bg-primary/40"></div>
+
+                    <!-- Social Icons -->
+                    <div class="flex gap-3 pt-1">
                         ${renderSocialLinkCompact(member.socials.linkedin, 'linkedin')}
                         ${renderSocialLinkCompact(member.socials.github, 'github')}
                         ${renderSocialLinkCompact(member.socials.twitter, 'twitter')}
                     </div>
                 </div>
             </div>
+
+            <!-- Hover Glow -->
+            <div class="pointer-events-none absolute inset-0 
+                        opacity-0 group-hover:opacity-100 transition-opacity duration-500
+                        bg-gradient-to-tr from-primary/10 via-transparent to-transparent"></div>
         </div>
     `).join('');
 }
+
 
 // Helper function for social links
 function renderSocialLinkCompact(url, type) {
@@ -791,7 +819,7 @@ const counterObserver = new IntersectionObserver((entries) => {
             counters.forEach(counter => {
                 const target = parseInt(counter.dataset.target);
                 const suffix = counter.dataset.suffix || '';
-                animateCounter(counter, target, suffix);
+                animateSimpleCounter(counter, target, suffix);
             });
             counterObserver.unobserve(entry.target);
         }
@@ -799,30 +827,24 @@ const counterObserver = new IntersectionObserver((entries) => {
 }, observerOptions);
 
 // Animate counter from 0 to target
-function animateCounter(element, target, suffix) {
-    const duration = 2000; // 2 seconds
-    const start = 0;
+function animateSimpleCounter(element, target, suffix) {
+    const duration = 2000;
     const startTime = performance.now();
-    
+
     function update(currentTime) {
-        const elapsed = currentTime - startTime;
-        const progress = Math.min(elapsed / duration, 1);
-        
-        // Easing function (ease-out)
+        const progress = Math.min((currentTime - startTime) / duration, 1);
         const easeOut = 1 - Math.pow(1 - progress, 3);
-        const current = Math.floor(easeOut * (target - start) + start);
-        
+        const current = Math.floor(easeOut * target);
+
         element.textContent = current + suffix;
-        
-        if (progress < 1) {
-            requestAnimationFrame(update);
-        } else {
-            element.textContent = target + suffix;
-        }
+
+        if (progress < 1) requestAnimationFrame(update);
+        else element.textContent = target + suffix;
     }
-    
+
     requestAnimationFrame(update);
 }
+
 
 // Observe the stats container
 document.addEventListener('DOMContentLoaded', () => {
@@ -1255,9 +1277,9 @@ function toggleFullscreen() {
 // Animated Counters
 function initCounters() {
     const counters = [
-        { id: 'clientCounter', target: 47, suffix: '', duration: 2000 },
+        { id: 'clientCounter', target: 10, suffix: '+', duration: 2000 },
         { id: 'engagementCounter', target: 94, suffix: '%', duration: 2500 },
-        { id: 'deliveryCounter', target: 156, suffix: '', duration: 2200 },
+        { id: 'deliveryCounter', target: 15, suffix: '+', duration: 2200 },
         { id: 'satisfactionCounter', target: 4.9, suffix: '', duration: 2000, decimals: 1 }
     ];
 
